@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 
 
-class Suppliers(models.Model):
+class SuppliersModel(models.Model):
     name = models.CharField(max_length=200)
     payment_deferment = models.IntegerField(default=0)
 
@@ -10,7 +10,7 @@ class Suppliers(models.Model):
         return f"id {self.id}: {self.name}: {self.payment_deferment}"
 
 
-class Production(models.Model):
+class ProductionModel(models.Model):
     name = models.CharField(max_length=200)
     size = models.CharField(max_length=200)
     price = models.DecimalField(max_digits=5, decimal_places=2)
@@ -19,8 +19,8 @@ class Production(models.Model):
         return f"id {self.id}: {self.name}: {self.size}: {self.price}"
 
 
-class Supply(models.Model):
-    supplier = models.ForeignKey(Suppliers, on_delete=models.CASCADE)
+class SupplyModel(models.Model):
+    supplier = models.ForeignKey(SuppliersModel, on_delete=models.CASCADE)
     date = models.DateField()
     amount = models.DecimalField(max_digits=6, decimal_places=2)
 
@@ -28,7 +28,7 @@ class Supply(models.Model):
         return f"id {self.id}: {self.supplier}: {self.date}: {self.amount}"
 
 
-class Wages(models.Model):
+class WagesModel(models.Model):
     worker = models.ForeignKey(User, on_delete=models.CASCADE)
     date_from = models.DateField(null=True)
     date_to = models.DateField(null=True)

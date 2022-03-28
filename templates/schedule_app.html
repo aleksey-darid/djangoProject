@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru-RU">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static "css/styles.css" %}" />
+    <title>График</title>
+
+</head>
+<body>
+<a href="{% url 'home' %}">Главная страница</a>
+<img src="{% static "/image/img.jpg" %}" alt="AMENIEL COFFEE">
+<H1>Добро пожаловать в раздел работы с графиком!</H1>
+<HR color="blue">
+<p>Тут вы сможете выбирать колличество фактически отработанных часов</p>
+<br>
+
+<h2>{{ message }}</h2>
+<h2>{{ error_message }}</h2>
+<br>
+<table border="2" width="20%">
+
+    </tr>
+     <tr>
+        <th>{{ worker }}</th>
+    <td width="1">
+        <form action="" method="post">
+        {% csrf_token %}
+        <input type="date" name="date" id="date">
+        <input type="time" name="time_from" id="time_from">
+        <input type="time" name="time_to" id="time_to">
+        <input type="submit" name="send" id="send">
+        </form></td>
+
+</table>
+
+<br>
+
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru-RU">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static "css/styles.css" %}" />
+    <title>Регистрация пользователя</title>
+</head>
+<body>
+<img src="{% static "/image/img.jpg" %}" alt="AMENIEL COFFEE" sizes="950">
+<a href="{% url 'home' %}">Главная страница</a>
+<h1>Регистрация</h1>
+<h2>{{ message }}</h2>
+<h2>{{ error_message }}</h2>
+<h2>{{ error_message_pas }}</h2>
+<h2>{{ error_message_phone }}</h2>
+<h2>{{ error_message_empty }}</h2>
+<p>
+<a href="{% url 'login' %}">Вход</a>
+<!--<form action="" method="post">
+        <p>Введите ваше имя</p>
+        <input type="text" name="username" id="username" value="">
+        <p>Введите пороль</p>
+        <input type="text" name="password" id="password" value="">
+        <p>Введите адрес электронной почты</p>
+        <input type="email" name="email" id="email" value="">
+        <p>
+        <input type="submit" name="send" id="send">
+        </form>-->
+ <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Sign up</button>
+  </form>
+
+</body>
+</html>

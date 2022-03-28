@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru-RU">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static "css/styles.css" %}" />
+    <title>Поставщики</title>
+
+</head>
+<body>
+<img src="{% static "/image/img.jpg" %}" alt="AMENIEL COFFEE">
+<a href="{% url 'home' %}">Главная страница</a>
+<h1>Список поставщиков</h1>
+<form action="" method="POST" name="get">
+        {% csrf_token %}
+        <h2>{{ suppliers_list }}</h2>
+        </form>
+
+<h1>Добавить поставщика</h1>
+<form action="" method="post" name="add">
+        {% csrf_token %}
+        <p>Введите имя поставщика</p>
+        <input type="text" name="name" id="name" value="">
+        <p>Введите колличество дней отсрочки платежа</p>
+        <input type="number" name="pay_def" id="pay_def" value=""> <p></p>
+        <input type="submit" name="send" id="send">
+        </form>
+
+<h2>{{ error_message_empty }}</h2>
+<h2>{{ message }}</h2>
+
+</body>
+</html>

@@ -2,10 +2,10 @@ from datetime import date
 
 from django.db import models
 from django.contrib.auth.models import User
-from Users.models import Workers
+from Users.models import WorkersModel
 
 
-class Schedule(models.Model):
+class ScheduleModel(models.Model):
     worker = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateField(null=True)
     time_from = models.TimeField(null=True)
@@ -19,7 +19,7 @@ class Schedule(models.Model):
 date_today = date.today()
 
 
-class Bid(models.Model):
+class BidModel(models.Model):
     data = models.DateField(default=f"{date_today}")
     text = models.CharField(max_length=200)
 

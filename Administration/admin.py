@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from Administration.models import Schedule, Bid
+from Administration.models import ScheduleModel, BidModel
 
-admin.site.register(Schedule)
-admin.site.register(Bid)
+admin.site.register(ScheduleModel)
+admin.site.register(BidModel)

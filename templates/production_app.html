@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static "css/styles.css" %}" />
+    <title>Title</title>
+
+</head>
+<body>
+<img src="{% static "/image/img.jpg" %}" alt="AMENIEL COFFEE" sizes="950">
+<a href="{% url 'home' %}">Главная страница</a>
+</body>
+</html>

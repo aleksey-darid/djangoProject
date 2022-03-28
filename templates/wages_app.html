@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru-Ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static "css/styles.css" %}" />
+    <title>ЗП</title>
+</head>
+<body>
+<img src="{% static "/image/img.jpg" %}" alt="AMENIEL COFFEE" sizes="950">
+
+<a href="{% url 'home' %}">Главная страница</a>
+
+<form action="" method="post">
+        {% csrf_token %}
+        <h2>{{ form }}</h2>
+        <input type="submit" name="send" id="send">
+</form>
+<br>
+<h2>{{ pay_text }} {{ pay }} {{ r }}</h2>
+</body>
+</html>
