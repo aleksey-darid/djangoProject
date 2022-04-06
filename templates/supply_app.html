@@ -11,17 +11,33 @@
 <img src="{% static "/image/img.jpg" %}" alt="AMENIEL COFFEE">
 <a href="{% url 'home' %}">Главная страница</a>
 <h1>Список поставок</h1>
-<form action="" method="GET">
+<form action="" method="get" name="get">
         {% csrf_token %}
-        <h2>{{ supply_list }}</h2>
-        </form>
+    <div>
+        <h2>Поставщик: {{ supply_sup }}</h2>
+        <h2>Дата: {{ supply_dat }}</h2>
+        <h2>Сумма: {{ supply_amo }}</h2>
+    </div>
+</form>
 
-<h1>Добавить поставку</h1>
 <form action="" method="post" name="add">
+    {% csrf_token %}
+    <h1>Добавить поставку</h1>
+    <p>Введите имя поставщика</p>
+        <input type="text" name="sup" id="sup">
+    <p>Укажите дату поставки</p>
+        <input type="date" name="dat" id="dat">
+    <p>Укажите сумму поставки</p>
+        <input type="text" name="amo" id="amo">
+    <p></p>
+        <input type="submit" name="add" id="add">
+</form>
+
+<form action="" method="post" name="del">
         {% csrf_token %}
-        <h2>{{ form }}</h2>
-        <input type="submit" name="send" id="send">
-        </form>
+        <h1>Удалить поставку</h1>
+        <input type="submit" name="del" id="del">
+</form>
 
 <h2>{{ error_message_empty }}</h2>
 <h2>{{ message }}</h2>

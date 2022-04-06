@@ -1,33 +1,24 @@
 <!DOCTYPE html>
-{% load static %}
-<html lang="ru-RU">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="{% static "css/styles.css" %}" />
-    <title>Поставщики</title>
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.1/axios.js"></script>
 
 </head>
 <body>
-<img src="{% static "/image/img.jpg" %}" alt="AMENIEL COFFEE">
-<a href="{% url 'home' %}">Главная страница</a>
-<h1>Список поставщиков</h1>
-<form action="" method="POST" name="get">
-        {% csrf_token %}
-        <h2>{{ suppliers_list }}</h2>
-        </form>
+{% verbatim %}
+<div class="container" id="sup_app">
+    <div class="btn btn-success btn-lg" v-for="sup in sup">
+        Name: {{ sup.name }}
+        <br>
+        Payment deferment: {{ sup.payment_deferment }}
+    </div>
+</div>
+{% endverbatim %}
 
-<h1>Добавить поставщика</h1>
-<form action="" method="post" name="add">
-        {% csrf_token %}
-        <p>Введите имя поставщика</p>
-        <input type="text" name="name" id="name" value="">
-        <p>Введите колличество дней отсрочки платежа</p>
-        <input type="number" name="pay_def" id="pay_def" value=""> <p></p>
-        <input type="submit" name="send" id="send">
-        </form>
-
-<h2>{{ error_message_empty }}</h2>
-<h2>{{ message }}</h2>
-
+<script src="/static/app.js"></script>
 </body>
 </html>

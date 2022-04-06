@@ -1,40 +1,83 @@
 import datetime
 
+from django.http import request
 from django.shortcuts import render, redirect
+from rest_framework.renderers import TemplateHTMLRenderer
+from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from Administration.models import ScheduleModel
 from .forms import SupplyForm, SuppliersForm, ProductionForm, WagesForm
 from .models import SuppliersModel, ProductionModel, SupplyModel, WagesModel
+from .serializers import SupplySerializer, SuppliersSerializer, ProductionSerializer, WagesSerializer
+
+
+class SupplyView(ModelViewSet):
+    queryset = SupplyModel.objects.all()
+    serializer_class = SupplySerializer
+
+
+def Sup_app(request):
+    return render(request, "suppliers_app.html")
+
+
+class SuppliersView(ModelViewSet):
+    queryset = SuppliersModel.objects.all()
+    serializer_class = SuppliersSerializer
+
+
+class ProductionView(ModelViewSet):
+    queryset = ProductionModel.objects.all()
+    serializer_class = ProductionSerializer
+
+
+class WagesView(ModelViewSet):
+    queryset = WagesModel.objects.all()
+    serializer_class = WagesSerializer
 
 
 def supply_app(request):
     if request.method == "GET":
-        dat = SupplyModel.objects.in_bulk()
-        dat_list1 = str(dat.values()).replace(":", ",").split(",")
-        print(dat_list1)
+        data = SupplyModel.objects.in_bulk()
+        dat_list1 = str(data.values()).replace(":", ",").split(",")
         dat_list = list(dat_list1)
-        new_dat = []
+        new_dat_sup = []
+        new_dat_dat = []
+        new_dat_amo = []
         count = 0
         for i in dat_list:
             count += 1
             if count == 4:
-                new_dat.append(i)
+                new_dat_sup.append(i)
             elif count == 6:
-                new_dat.append(i)
+                new_dat_dat.append(i)
             elif count == 7:
+                new_dat_amo.append(i)
                 count = 0
-        new_dat2 = str(new_dat).replace("'", "").replace("[", "").replace("]", "").replace(">", "").replace(")", "")
-        list1 = {"list1": new_dat2}
-        form = SupplyForm()
-        supply_list = {"supply_list": new_dat2, "form": form}
+        new_dat_sup1 = str(new_dat_sup).replace("'", "").replace("[", "").replace("]", "").replace(">", "").replace(")",
+                                                                                                                    "")
+        new_dat_dat1 = str(new_dat_dat).replace("'", "").replace("[", "").replace("]", "").replace(">", "").replace(")",
+                                                                                                                    "")
+        new_dat_amo1 = str(new_dat_amo).replace("'", "").replace("[", "").replace("]", "").replace(">", "").replace(")",
+                                                                                                                    "")
+        supply_list = {"supply_sup": new_dat_sup1, "supply_dat": new_dat_dat1, "supply_amo": new_dat_amo1}
         return render(request, "supply_app.html", context=supply_list)
-    elif request.method == "POST":
-        form = SupplyForm(request.POST)
-        if form.is_valid():
-            sch1 = SupplyModel(**form.cleaned_data)
-            print(sch1)
-            sch1.save()
+    elif request.method == "POST" and request.POST.get("add"):
+        message_empty = {"message_empty": "Поля не могут быть пустыми!"}
+        data = request.POST.get
+        sup = data("sup")
+        dat = data("dat")
+        amo = data("amo")
+        if sup and dat and amo:
+            SupplyModel.objects.create(supplier=sup, date=dat, amount=amo) # найти как выбрать поставщика
+            return redirect("supply")
+        else:
+            return render(request, "supply_app.html", context=message_empty)
+    elif request.method == "POST" and request.POST.get("del"):
+        pass
+        return redirect("supply")
+    elif request.method == "POST" and request.POST.get("put"):
+        pass
         return redirect("supply")
 
 
@@ -42,48 +85,66 @@ def suppliers_app(request):
     if request.method == "GET":
         dat = SuppliersModel.objects.in_bulk()
         dat_list1 = str(dat.values()).replace(":", ",").split(",")
-        print(dat_list1)
         dat_list = list(dat_list1)
-        new_dat = []
+        new_dat_name = []
+        new_dat_pay = []
         count = 0
         for i in dat_list:
             count += 1
             if count == 3:
-                new_dat.append(i)
+                new_dat_name.append(i)
             elif count == 4:
-                # new_dat.append(i)
+                new_dat_pay.append(i)
                 count = 0
-        new_dat2 = str(new_dat).replace("'", "").replace("[", "").replace("]", "").replace(">", "").replace(")", "")
-
-        suppliers_list = {"suppliers_list": str(new_dat2)}
-        return render(request, "suppliers_app.html", context=suppliers_list)
-
-    elif request.method == "POST":
-        error_message_empty = {"error_message_empty": "Поля не могут быть пустыми."}
-        message = {"message": "Поставщик добавлен."}
+        new_dat_name = str(new_dat_name).replace("'", "").replace("[", "").replace("]", "").replace(">", "").replace(
+            ")",
+            "")
+        new_dat_pay = str(new_dat_pay).replace("'", "").replace("[", "").replace("]", "").replace(">", "").replace(")",
+                                                                                                                   "")
+        data_h = {"sup": str(new_dat_name), "pay": str(new_dat_pay)}
+        return render(request, "suppliers_app_.html", context=data_h)
+    elif request.method == "POST" and request.POST.get("add"):
+        message_empty = {"message_empty": "Поля не могут быть пустыми!"}
         data = request.POST.get
-        print(data)
         name = data("name")
-        print(name)
         pay_def = data("pay_def")
-        print(pay_def)
+        if name and pay_def:
+            SuppliersModel.objects.create(name=f"{name}", payment_deferment=f"{pay_def}")
+            return redirect("suppliers")
+        else:
+            return render(request, "suppliers_app_.html", context=message_empty)
+    elif request.method == "POST" and request.POST.get("del"):
+        message = {"message": "Выбранный поставщик удален!!!"}
+        message_empty = {"message_empty": "Поля не могут быть пустыми!"}
+        data = request.POST.get
+        del_name = data("del_name")
+        if del_name:
+            d = SuppliersModel.objects.filter(name=del_name)
+            d.delete()
+            return render(request, "suppliers_app_.html", context=message)
+        else:
+            return render(request, "suppliers_app_.html", context=message_empty)
 
-        count_name = 0
-        for _ in name:
-            count_name = count_name + 1
-        if count_name == 0:
-            return render(request, "suppliers_app.html", context=error_message_empty)
-
-        count_name = 0
-        for _ in pay_def:
-            count_name = count_name + 1
-        if count_name == 0:
-            return render(request, "suppliers_app.html", context=error_message_empty)
-
-        new_supplier = SuppliersModel.objects.create(name=f"{name}", payment_deferment=f"{pay_def}")
-        new_supplier.save()
-        return render(request, "suppliers_app.html", context=message)
-    return render(request, "suppliers_app.html")
+    elif request.method == "POST" and request.POST.get("put"):
+        message = {"message": "Выбранный поставщик обнавлен!!!"}
+        message_empty = {"message_empty": "Поля не могут быть пустыми!"}
+        message_err = {"message_err": "Проверьте правильность вводимой информации!"}
+        data = request.POST.get
+        put_name = data("put_name")
+        name = data("name")
+        pay_def = data("pay_def_put")
+        if put_name and name and pay_def:
+            try:
+                s = SuppliersModel.objects.get(name=f"{put_name}")
+                s.name = f"{name}"
+                s.payment_deferment = f"{pay_def}"
+                s.save()
+                return render(request, "suppliers_app_.html", context=message)
+            except:
+                return render(request, "suppliers_app_.html", context=message_err)
+        else:
+            return render(request, "suppliers_app_.html", context=message_empty)
+    return render(request, "suppliers_app_.html")
 
 
 def production_app(request):

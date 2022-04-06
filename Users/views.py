@@ -3,11 +3,21 @@ from django.contrib.auth.models import Group, Permission
 from django.contrib import auth
 from django.contrib.auth.models import AbstractUser
 from django.shortcuts import render, redirect
-from rest_framework.viewsets import ModelViewSet
+from rest_framework import viewsets
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 import logging
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from rest_framework.renderers import TemplateHTMLRenderer
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from Users.serializers import UserSerializer
+
+
+class UserView(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
 
 def registration_app(request):
@@ -98,6 +108,7 @@ def workers_app(request):
 
 def administration_app(request):
     return render(request, "administration_app.html")
+
 
 def home_app(request):
     return render(request, "home_app.html")

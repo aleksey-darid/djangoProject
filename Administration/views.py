@@ -1,9 +1,21 @@
 from datetime import datetime
 
 from django.shortcuts import render, redirect
+from rest_framework.viewsets import ModelViewSet
 
 from Administration.forms import BidForm, ScheduleForm
 from Administration.models import BidModel, ScheduleModel
+from Administration.serializers import ScheduleSerializer, BidSerializer
+
+
+class ScheduleView(ModelViewSet):
+    queryset = ScheduleModel.objects.all()
+    serializer_class = ScheduleSerializer
+
+
+class BidView(ModelViewSet):
+    queryset = BidModel.objects.all()
+    serializer_class = BidSerializer
 
 
 def bid_app(request):

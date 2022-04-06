@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru-RU">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static "css/styles.css" %}" />
+    <title>Поставщики</title>
+
+</head>
+<body>
+<img src="{% static "/image/img.jpg" %}" alt="AMENIEL COFFEE">
+<a href="{% url 'home' %}">Главная страница</a>
+<h1>Список поставщиков</h1>
+
+<form action="" method="get" name="get">
+        {% csrf_token %}
+    <div>
+        <h2>Поставщик: {{ sup}}</h2>
+        <h2>Отсрочка платежа: {{ pay }}</h2>
+    </div>
+</form>
+
+<h1>Добавить поставщика</h1>
+<h2>{{ message_empty }}</h2>
+<h2>{{ message }}</h2>
+<form action="" method="post" name="add">
+        {% csrf_token %}
+        <p>Введите имя поставщика</p>
+        <input type="text" name="name" id="name" value="">
+        <p>Введите колличество дней отсрочки платежа</p>
+        <input type="number" name="pay_def" id="pay_def" value=""> <p></p>
+        <input type="submit" name="add" id="add">
+
+</form>
+
+<br>
+<h1>Удалить поставщика</h1>
+<form action="" method="post" name="del">
+        {% csrf_token %}
+        <p>Введите имя поставщика которого хотите удалить</p>
+        <input type="text" name="del_name" id="del_name">
+        <p>Удалить поставщика ?</p>
+        <input type="submit" name="del" id="del">
+
+</form>
+<br>
+<h1>Изменить поставщика</h1>
+<h2>{{ message_err }}</h2>
+<form action="" method="post" name="put">
+        {% csrf_token %}
+        <p>Введите имя поставщика, данные которого хотите изменить</p>
+        <input type="text" name="put_name" id="put_name">
+        <p>Введите имя поставщика</p>
+        <input type="text" name="name" id="name" value="">
+        <p>Введите колличество дней отсрочки платежа</p>
+        <input type="number" name="pay_def_put" id="pay_def_put" value="">
+        <input type="submit" name="put" id="put">
+
+</form>
+</body>
+</html>
