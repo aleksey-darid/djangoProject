@@ -1,0 +1,12 @@
+{% extends "suppliers_app_.html" %}
+{% block content %}
+<h1>Удалить поставщика</h1>
+    <h2>{{ message_empty }}</h2>
+<form action="" method="post" name="del">
+        {% csrf_token %}
+        <p>Введите имя поставщика которого хотите удалить</p>
+        <input type="text" name="del_name" id="del_name">
+        <p>Удалить поставщика ?</p>
+        <input type="submit" name="del" id="del">
+</form>
+{% endblock content %}

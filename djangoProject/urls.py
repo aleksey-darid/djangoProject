@@ -38,6 +38,5 @@ urlpatterns = [
     path('', include(Administration.urls)),
     path('', include(Users.urls)),
     path('', home_app, name='home'),
-    # path('base_page/', base_app, name="base"),
 ]
 urlpatterns += router.urls

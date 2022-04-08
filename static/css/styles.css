@@ -1,22 +1,15 @@
 title {
-    color: blue;
+    color: black;
 }
 body {
     font-family: Verdana;
 }
 
 h1 {
-    color: blue;
+    color: black;
 }
 
 img {
     width: 350px;
 }
 
-font {
-    color: #e3cea5;
-}
-
-basefont {
-    color: #e3cea5;
-}

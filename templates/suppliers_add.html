@@ -1,0 +1,13 @@
+{% extends "suppliers_app_.html" %}
+{% block content %}
+    <h1>Добавить поставщика</h1>
+<h2>{{ message_empty }}</h2>
+<form action="" method="post" name="add">
+        {% csrf_token %}
+        <p>Введите имя поставщика</p>
+        <input type="text" name="name" id="name" value="">
+        <p>Введите колличество дней отсрочки платежа</p>
+        <input type="number" name="pay_def" id="pay_def" value=""> <p></p>
+        <input type="submit" name="add" id="add">
+</form>
+{% endblock content %}

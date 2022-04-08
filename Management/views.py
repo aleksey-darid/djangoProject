@@ -18,7 +18,7 @@ class SupplyView(ModelViewSet):
 
 
 def Sup_app(request):
-    return render(request, "suppliers_app.html")
+    return render(request, "suppliers_api_app.html")
 
 
 class SuppliersView(ModelViewSet):
@@ -38,30 +38,8 @@ class WagesView(ModelViewSet):
 
 def supply_app(request):
     if request.method == "GET":
-        data = SupplyModel.objects.in_bulk()
-        dat_list1 = str(data.values()).replace(":", ",").split(",")
-        dat_list = list(dat_list1)
-        new_dat_sup = []
-        new_dat_dat = []
-        new_dat_amo = []
-        count = 0
-        for i in dat_list:
-            count += 1
-            if count == 4:
-                new_dat_sup.append(i)
-            elif count == 6:
-                new_dat_dat.append(i)
-            elif count == 7:
-                new_dat_amo.append(i)
-                count = 0
-        new_dat_sup1 = str(new_dat_sup).replace("'", "").replace("[", "").replace("]", "").replace(">", "").replace(")",
-                                                                                                                    "")
-        new_dat_dat1 = str(new_dat_dat).replace("'", "").replace("[", "").replace("]", "").replace(">", "").replace(")",
-                                                                                                                    "")
-        new_dat_amo1 = str(new_dat_amo).replace("'", "").replace("[", "").replace("]", "").replace(">", "").replace(")",
-                                                                                                                    "")
-        supply_list = {"supply_sup": new_dat_sup1, "supply_dat": new_dat_dat1, "supply_amo": new_dat_amo1}
-        return render(request, "supply_app.html", context=supply_list)
+        dat = SupplyModel.objects.all()
+        return render(request, "supply_app.html", {'dat': dat, 'title': "Поставки"})
     elif request.method == "POST" and request.POST.get("add"):
         message_empty = {"message_empty": "Поля не могут быть пустыми!"}
         data = request.POST.get
@@ -69,7 +47,7 @@ def supply_app(request):
         dat = data("dat")
         amo = data("amo")
         if sup and dat and amo:
-            SupplyModel.objects.create(supplier=sup, date=dat, amount=amo) # найти как выбрать поставщика
+            SupplyModel.objects.create(supplier=sup, date=dat, amount=amo)  # найти как выбрать поставщика
             return redirect("supply")
         else:
             return render(request, "supply_app.html", context=message_empty)
@@ -81,70 +59,72 @@ def supply_app(request):
         return redirect("supply")
 
 
-def suppliers_app(request):
-    if request.method == "GET":
-        dat = SuppliersModel.objects.in_bulk()
-        dat_list1 = str(dat.values()).replace(":", ",").split(",")
-        dat_list = list(dat_list1)
-        new_dat_name = []
-        new_dat_pay = []
-        count = 0
-        for i in dat_list:
-            count += 1
-            if count == 3:
-                new_dat_name.append(i)
-            elif count == 4:
-                new_dat_pay.append(i)
-                count = 0
-        new_dat_name = str(new_dat_name).replace("'", "").replace("[", "").replace("]", "").replace(">", "").replace(
-            ")",
-            "")
-        new_dat_pay = str(new_dat_pay).replace("'", "").replace("[", "").replace("]", "").replace(">", "").replace(")",
-                                                                                                                   "")
-        data_h = {"sup": str(new_dat_name), "pay": str(new_dat_pay)}
-        return render(request, "suppliers_app_.html", context=data_h)
-    elif request.method == "POST" and request.POST.get("add"):
-        message_empty = {"message_empty": "Поля не могут быть пустыми!"}
-        data = request.POST.get
-        name = data("name")
-        pay_def = data("pay_def")
-        if name and pay_def:
-            SuppliersModel.objects.create(name=f"{name}", payment_deferment=f"{pay_def}")
-            return redirect("suppliers")
-        else:
-            return render(request, "suppliers_app_.html", context=message_empty)
-    elif request.method == "POST" and request.POST.get("del"):
-        message = {"message": "Выбранный поставщик удален!!!"}
-        message_empty = {"message_empty": "Поля не могут быть пустыми!"}
-        data = request.POST.get
-        del_name = data("del_name")
-        if del_name:
-            d = SuppliersModel.objects.filter(name=del_name)
-            d.delete()
-            return render(request, "suppliers_app_.html", context=message)
-        else:
-            return render(request, "suppliers_app_.html", context=message_empty)
+class Suppliers:
+    @staticmethod
+    def suppliers_get(request):
+        if request.method == "GET":
+            dat = SuppliersModel.objects.all()
+            return render(request, "suppliers_app_.html", {"dat": dat})
+        return render(request, "suppliers_app_.html")
 
-    elif request.method == "POST" and request.POST.get("put"):
-        message = {"message": "Выбранный поставщик обнавлен!!!"}
-        message_empty = {"message_empty": "Поля не могут быть пустыми!"}
-        message_err = {"message_err": "Проверьте правильность вводимой информации!"}
-        data = request.POST.get
-        put_name = data("put_name")
-        name = data("name")
-        pay_def = data("pay_def_put")
-        if put_name and name and pay_def:
-            try:
-                s = SuppliersModel.objects.get(name=f"{put_name}")
-                s.name = f"{name}"
-                s.payment_deferment = f"{pay_def}"
-                s.save()
-                return render(request, "suppliers_app_.html", context=message)
-            except:
-                return render(request, "suppliers_app_.html", context=message_err)
-        else:
-            return render(request, "suppliers_app_.html", context=message_empty)
-    return render(request, "suppliers_app_.html")
+    @staticmethod
+    def suppliers_add(request):
+        if request.method == "GET":
+            dat = SuppliersModel.objects.all()
+            return render(request, "suppliers_add.html", {"dat": dat})
+        elif request.method == "POST" and request.POST.get("add"):
+            message_empty = {"message_empty": "Поля не могут быть пустыми!"}
+            data = request.POST.get
+            name = data("name")
+            pay_def = data("pay_def")
+            if name and pay_def:
+                SuppliersModel.objects.create(name=f"{name}", payment_deferment=f"{pay_def}")
+                return redirect("suppliers_get")
+            else:
+                return render(request, "suppliers_add.html", context=message_empty)
+        return render(request, "suppliers_app_.html")
+
+    @staticmethod
+    def suppliers_del(request):
+        if request.method == "GET":
+            dat = SuppliersModel.objects.all()
+            return render(request, "suppliers_del.html", {"dat": dat})
+        elif request.method == "POST" and request.POST.get("del"):
+            message_empty = {"message_empty": "Поля не могут быть пустыми!"}
+            data = request.POST.get
+            del_name = data("del_name")
+            if del_name:
+                d = SuppliersModel.objects.filter(name=del_name)
+                d.delete()
+                return redirect("suppliers_get")
+            else:
+                return render(request, "suppliers_del.html", context=message_empty)
+        return render(request, "suppliers_app_.html")
+
+    @staticmethod
+    def suppliers_put(request):
+        if request.method == "GET":
+            dat = SuppliersModel.objects.all()
+            return render(request, "suppliers_put.html", {"dat": dat})
+        elif request.method == "POST" and request.POST.get("put"):
+            message_empty = {"message_empty": "Поля не могут быть пустыми!"}
+            message_err = {"message_err": "Проверьте правильность вводимой информации!"}
+            data = request.POST.get
+            put_name = data("put_name")
+            name = data("name")
+            pay_def = data("pay_def_put")
+            if put_name and name and pay_def:
+                try:
+                    s = SuppliersModel.objects.get(name=f"{put_name}")
+                    s.name = f"{name}"
+                    s.payment_deferment = f"{pay_def}"
+                    s.save()
+                    return redirect("suppliers_get")
+                except:
+                    return render(request, "suppliers_put.html", context=message_err)
+            else:
+                return render(request, "suppliers_put.html", context=message_empty)
+        return render(request, "suppliers_app_.html")
 
 
 def production_app(request):

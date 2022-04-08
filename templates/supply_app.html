@@ -1,24 +1,16 @@
-<!DOCTYPE html>
-{% load static %}
-<html lang="ru-Ru">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="{% static "css/styles.css" %}" />
-    <title>Поставки</title>
-
-</head>
-<body>
-<img src="{% static "/image/img.jpg" %}" alt="AMENIEL COFFEE">
-<a href="{% url 'home' %}">Главная страница</a>
+{% extends "base.html" %}
+{% block content %}
 <h1>Список поставок</h1>
-<form action="" method="get" name="get">
-        {% csrf_token %}
-    <div>
-        <h2>Поставщик: {{ supply_sup }}</h2>
-        <h2>Дата: {{ supply_dat }}</h2>
-        <h2>Сумма: {{ supply_amo }}</h2>
-    </div>
-</form>
+<ul>
+    {% for d in dat %}
+        <li>
+        <h2>Поставщик: {{ d.name }}</h2>
+        <p>Дата поставки: {{ d.date }}</p>
+        <p>Сумма поставки: {{ d.amount }}</p>
+        <hr>
+        </li>
+    {% endfor %}
+</ul>
 
 <form action="" method="post" name="add">
     {% csrf_token %}
@@ -41,6 +33,6 @@
 
 <h2>{{ error_message_empty }}</h2>
 <h2>{{ message }}</h2>
-
+{% endblock content %}
 </body>
 </html>

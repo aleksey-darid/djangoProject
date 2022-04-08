@@ -111,4 +111,5 @@ def administration_app(request):
 
 
 def home_app(request):
-    return render(request, "home_app.html")
+    title = {"title": "Главная страница"}
+    return render(request, "home_app.html", context=title)

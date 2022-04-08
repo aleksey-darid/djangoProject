@@ -1,10 +1,33 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    {% block link %}
+    <link rel="stylesheet" href="{% static "css/style.css" %}" />
+    {% endblock link %}
+    <title>{{ title }}</title>
 </head>
 <body>
+{% block img %}
+<img src="{% static "/images/img.jpg" %}" alt="AMENIEL COFFEE" sizes="950">
+{% endblock img %}
+{% block mainmenu %}
+    <h1><a href="{% url 'home' %}">Главная страница</a></h1>
+    <h2><li><a href="{% url 'registration' %}">Регистрация</a></li></h2>
+    <h2><li><a href="{% url 'login' %}">Вход/Выход</a></li></h2>
+    <h2><li><a href="{% url 'logout' %}">Сотрудники</a></li></h2>
+    <h2><li><a href="{% url 'users' %}">Клиенты</a></li></h2>
+    <h2><li><a href="{% url 'suppliers_get' %}">Поставщики</a></li></h2>
+    <h2><li><a href="{% url 'supply' %}">Поставки</a></li></h2>
+    <h2><li><a href="{% url 'bid' %}">Заявки</a></li></h2>
+    <h2><li><a href="{% url 'schedule' %}">График</a></li></h2>
+    <h2><li><a href="{% url 'wages' %}">ЗП</a></li></h2>
+    <h2><li><a href="{% url 'production' %}">Продукция</a></li></h2>
+{% endblock mainmenu %}
 
+{% block content %}
+
+{% endblock content %}
 </body>
 </html>
