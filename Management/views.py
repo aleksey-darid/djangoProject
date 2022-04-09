@@ -36,39 +36,89 @@ class WagesView(ModelViewSet):
     serializer_class = WagesSerializer
 
 
-def supply_app(request):
-    if request.method == "GET":
-        dat = SupplyModel.objects.all()
-        return render(request, "supply_app.html", {'dat': dat, 'title': "Поставки"})
-    elif request.method == "POST" and request.POST.get("add"):
-        message_empty = {"message_empty": "Поля не могут быть пустыми!"}
-        data = request.POST.get
-        sup = data("sup")
-        dat = data("dat")
-        amo = data("amo")
-        if sup and dat and amo:
-            SupplyModel.objects.create(supplier=sup, date=dat, amount=amo)  # найти как выбрать поставщика
-            return redirect("supply")
-        else:
-            return render(request, "supply_app.html", context=message_empty)
-    elif request.method == "POST" and request.POST.get("del"):
-        pass
-        return redirect("supply")
-    elif request.method == "POST" and request.POST.get("put"):
-        pass
-        return redirect("supply")
+class Supply:
+
+    def supply_get(self, request):
+        if request.method == "GET":
+            dat = SupplyModel.objects.all()
+            return render(request, "supply_app.html", {'dat': dat, 'title': "Поставки"})
+        return render(request, "supply_app.html")
+
+    def supply_add(self, request):
+        if request.method == "GET":
+            dat = SupplyModel.objects.all()
+            return render(request, "supply_add.html", {'dat': dat, 'title': "Поставки"})
+        elif request.method == "POST" and request.POST.get("add"):
+            message_empty = {"message_empty": "Поля не могут быть пустыми!"}
+            message_err = {"message_err": "Проверьте правильность вводимой информации!"}
+            data = request.POST.get
+            sup = data("sup")
+            dat = data("dat")
+            amo = data("amo")
+            if sup and dat and amo:
+                try:
+                    supplier = SuppliersModel.objects.get(name=sup)
+                    SupplyModel.objects.create(supplier=supplier, date=dat, amount=amo)
+                    return redirect("supply_get")
+                except:
+                    return render(request, "supply_add.html", context=message_err)
+            else:
+                return render(request, "supply_add.html", context=message_empty)
+        return render(request, "supply_app.html")
+
+    def supply_del(self, request):
+        if request.method == "GET":
+            dat = SupplyModel.objects.all()
+            return render(request, "supply_del.html", {'dat': dat, 'title': "Поставки"})
+        elif request.method == "POST" and request.POST.get("del"):
+            message_empty = {"message_empty": "Поля не могут быть пустыми!"}
+            data = request.POST.get
+            del_id = data("del_id")
+            if del_id:
+                d = SupplyModel.objects.filter(id=del_id)
+                d.delete()
+                return redirect("supply_get")
+            else:
+                return render(request, "supply_del.html", context=message_empty)
+        return render(request, "supply_app.html")
+
+    def supply_put(self, request):
+        if request.method == "GET":
+            dat = SupplyModel.objects.all()
+            return render(request, "supply_put.html", {'dat': dat, 'title': "Поставки"})
+        elif request.method == "POST" and request.POST.get("put"):
+            message_empty = {"message_empty": "Поля не могут быть пустыми!"}
+            message_err = {"message_err": "Проверьте правильность вводимой информации!"}
+            data = request.POST.get
+            put_id = data("put_id")
+            suplier = data("sup")
+            date = data("dat")
+            amo = data("amo")
+            if put_id and suplier and date and amo:
+                try:
+                    supply = SupplyModel.objects.get(id=f"{put_id}")
+                    supplier = SuppliersModel.objects.get(name=supply.supplier.name)
+                    supply.supplier = supplier
+                    supply.date = date
+                    supply.amount = amo
+                    supply.save()
+                    return redirect("supply_get")
+                except:
+                    return render(request, "supply_put.html", context=message_err)
+            else:
+                return render(request, "supply_put.html", context=message_empty)
+        return render(request, "supply_app.html")
 
 
 class Suppliers:
-    @staticmethod
-    def suppliers_get(request):
+
+    def suppliers_get(self, request):
         if request.method == "GET":
             dat = SuppliersModel.objects.all()
             return render(request, "suppliers_app_.html", {"dat": dat})
         return render(request, "suppliers_app_.html")
 
-    @staticmethod
-    def suppliers_add(request):
+    def suppliers_add(self, request):
         if request.method == "GET":
             dat = SuppliersModel.objects.all()
             return render(request, "suppliers_add.html", {"dat": dat})
@@ -84,8 +134,7 @@ class Suppliers:
                 return render(request, "suppliers_add.html", context=message_empty)
         return render(request, "suppliers_app_.html")
 
-    @staticmethod
-    def suppliers_del(request):
+    def suppliers_del(self, request):
         if request.method == "GET":
             dat = SuppliersModel.objects.all()
             return render(request, "suppliers_del.html", {"dat": dat})
@@ -101,8 +150,7 @@ class Suppliers:
                 return render(request, "suppliers_del.html", context=message_empty)
         return render(request, "suppliers_app_.html")
 
-    @staticmethod
-    def suppliers_put(request):
+    def suppliers_put(self, request):
         if request.method == "GET":
             dat = SuppliersModel.objects.all()
             return render(request, "suppliers_put.html", {"dat": dat})

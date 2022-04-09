@@ -1,38 +1,22 @@
 {% extends "base.html" %}
-{% block content %}
+{% block get %}
 <h1>Список поставок</h1>
+    <div align="left">
 <ul>
     {% for d in dat %}
         <li>
-        <h2>Поставщик: {{ d.name }}</h2>
+        <h2>id поставки: {{ d.id }}</h2>
+        <h2>Поставщик: {{ d.supplier.name }}</h2>
         <p>Дата поставки: {{ d.date }}</p>
         <p>Сумма поставки: {{ d.amount }}</p>
         <hr>
         </li>
     {% endfor %}
 </ul>
-
-<form action="" method="post" name="add">
-    {% csrf_token %}
-    <h1>Добавить поставку</h1>
-    <p>Введите имя поставщика</p>
-        <input type="text" name="sup" id="sup">
-    <p>Укажите дату поставки</p>
-        <input type="date" name="dat" id="dat">
-    <p>Укажите сумму поставки</p>
-        <input type="text" name="amo" id="amo">
-    <p></p>
-        <input type="submit" name="add" id="add">
-</form>
-
-<form action="" method="post" name="del">
-        {% csrf_token %}
-        <h1>Удалить поставку</h1>
-        <input type="submit" name="del" id="del">
-</form>
-
-<h2>{{ error_message_empty }}</h2>
-<h2>{{ message }}</h2>
+    </div>
+{% endblock get %}
+{% block content %}
+    <h2><a href="{% url "supply_add" %}">Добавить поставку </a></h2>
+    <h2><a href="{% url "supply_del" %}">Удалить поставку </a></h2>
+    <h2><a href="{% url "supply_put" %}">Изменить поставку </a></h2>
 {% endblock content %}
-</body>
-</html>

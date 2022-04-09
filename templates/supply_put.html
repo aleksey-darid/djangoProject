@@ -1,0 +1,19 @@
+{% extends "supply_app.html" %}
+{% block content %}
+<h1>Изменить поставку</h1>
+    <h2>{{ message_empty }}</h2>
+    <h2>{{ message_err }}</h2>
+<form action="" method="post" name="put">
+        {% csrf_token %}
+        <p>Введите id поставки которую хотите удалить</p>
+        <input type="text" name="put_id" id="put_id">
+        <p>Введите имя поставщика</p>
+        <input type="text" name="sup" id="sup">
+        <p>Укажите дату поставки</p>
+        <input type="date" name="dat" id="dat">
+        <p>Укажите сумму поставки</p>
+        <input type="text" name="amo" id="amo">
+        <p></p>
+        <input type="submit" name="put" id="put">
+</form>
+{% endblock content %}

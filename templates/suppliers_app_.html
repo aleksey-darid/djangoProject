@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
-{% block content %}
-<h1>Список поставщиков</h1>
+{% block get %}
+    <h1>Список поставщиков</h1>
+    <div align="left">
 <ul>
     {% for d in dat %}
         <li>
@@ -10,9 +11,10 @@
         </li>
     {% endfor %}
 </ul>
-<h1><a href="{% url "suppliers_add" %}">Добавить поставщика </a></h1>
-<br>
-<h1><a href="{% url "suppliers_del" %}">Удалить поставщика </a></h1>
-<br>
-<h1><a href="{% url "suppliers_put" %}">Изменить поставщика </a></h1>
+    </div>
+{% endblock get %}
+{% block content %}
+    <h2><a href="{% url "suppliers_add" %}">Добавить поставщика </a></h2>
+    <h2><a href="{% url "suppliers_del" %}">Удалить поставщика </a></h2>
+    <h2><a href="{% url "suppliers_put" %}">Изменить поставщика </a></h2>
 {% endblock content %}
