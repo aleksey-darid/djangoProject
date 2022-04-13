@@ -1,12 +1,12 @@
-{% extends "suppliers_app_.html" %}
+{% extends "workers_app.html" %}
 {% block content %}
-<h1>Удалить поставщика</h1>
+<h1>Удалить сотрудника</h1>
     <h2>{{ message_empty }}</h2>
 <form action="" method="post" name="del">
         {% csrf_token %}
-        <p>Введите ID поставщика которого хотите удалить</p>
+        <p>Введите ID сотрудника которого хотите удалить</p>
         <input type="text" name="del_name" id="del_name">
-        <p>Удалить поставщика ?</p>
+        <p>Удалить сотрудника ?</p>
         <input type="submit" name="del" id="del">
 </form>
 {% endblock content %}

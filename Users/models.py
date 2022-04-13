@@ -22,10 +22,10 @@ class ManagerModel(models.Model):
 
 class OrderModel(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    date = models.DateTimeField()
-    num = models.IntegerField()
+    date = models.DateTimeField(auto_now=True)
     product = models.ForeignKey(ProductionModel, on_delete=models.CASCADE)
     how_math = models.IntegerField()
+    phone = models.CharField(max_length=255, default="+375 29")
 
     def __str__(self):
-        return f"id {self.id}: {self.user}: {self.date}: {self.num}: {self.product}: {self.how_math}:"
+        return f"id {self.id}: {self.user}: {self.date}: {self.product}: {self.how_math}: {self.phone}:"

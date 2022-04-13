@@ -1,0 +1,15 @@
+{% extends "workers_app.html" %}
+{% block content %}
+<h1>Изменить ставку сотрудника</h1>
+    <h2>{{ message_empty }}</h2>
+    <h2>{{ message_err }}</h2>
+<form action="" method="post" name="put">
+        {% csrf_token %}
+        <p>Введите ID сотрудника, ставку которого хотите изменить</p>
+        <input type="text"  name="id" id="id">
+        <p>Введите новое значение ставки сотрудника</p>
+        <input type="text" name="pay" id="pay" >
+        <p></p>
+        <input type="submit" name="put" id="put">
+</form>
+{% endblock content %}

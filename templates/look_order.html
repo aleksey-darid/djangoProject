@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block get %}
+<h2>{{ message }}</h2>
+    <h1>Не обработанные заказы</h1>
+    <div align="left">
+<ul>
+    {% for o in orders %}
+        <li>
+        <h2>Пользователь: {{ o.user }}</h2>
+        <p>Дата заказа: {{ o.date }}</p>
+        <p>Наименование: {{ o.product }}</p>
+        <p>Колличество: {{ o.how_math }}</p>
+        <p>Номер для связи: {{ o.phone }}</p>
+        <hr>
+        </li>
+    {% endfor %}
+</ul>
+    </div>
+{% endblock get %}

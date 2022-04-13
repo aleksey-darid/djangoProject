@@ -1,0 +1,15 @@
+{% extends "workers_app.html" %}
+{% block content %}
+    <h1>Добавить сотрудника</h1>
+    <h2><a href="{% url "users" %}">Посмотреть пользователей </a></h2>
+<h2>{{ message_empty }}</h2>
+<form action="" method="post" name="add">
+        {% csrf_token %}
+        <label for="name">Введите ID пользователя которого хотите сделать сотрудником: </label>
+        <input type="text" name="name" id="name">
+    <p></p>
+        <label for="pay_def">Введите сумму ставки в час: </label>
+        <input type="number" name="pay" id="pay"> <p></p>
+        <input type="submit" name="add" id="add">
+</form>
+{% endblock content %}

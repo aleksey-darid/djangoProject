@@ -4,9 +4,10 @@
 <h2>{{ message_empty }}</h2>
 <form action="" method="post" name="add">
         {% csrf_token %}
-        <p>Введите имя поставщика</p>
+        <label for="name">Введите имя поставщика: </label>
         <input type="text" name="name" id="name" value="">
-        <p>Введите колличество дней отсрочки платежа</p>
+    <p></p>
+        <label for="pay_def">Введите колличество дней отсрочки платежа: </label>
         <input type="number" name="pay_def" id="pay_def" value=""> <p></p>
         <input type="submit" name="add" id="add">
 </form>

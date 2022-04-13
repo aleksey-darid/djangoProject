@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     {% block link %}
-    <link rel="stylesheet" href="{% static "css/style.css" %}" />
+    <link rel="stylesheet" href="{% static "css/styles.css" %}" />
     {% endblock link %}
     <title>{{ title }}</title>
 </head>
@@ -12,16 +12,17 @@
 {% block mainmenu %}
     <div align="left">
     <h2>
-        <a href="{% url 'home' %}">Главная страница</a><li><a href="{% url 'registration' %}">Регистрация</a></li>
+    <a href="{% url 'home' %}">Главная страница</a>
+    <li><a href="{% url 'registration' %}">Регистрация</a></li>
     <li><a href="{% url 'login' %}">Вход/Выход</a></li>
-    <li><a href="{% url 'logout' %}">Сотрудники</a></li>
-    <li><a href="{% url 'users' %}">Клиенты</a></li>
+    <li><a href="{% url 'workers' %}">Сотрудники</a></li>
     <li><a href="{% url 'suppliers_get' %}">Поставщики</a></li>
     <li><a href="{% url 'supply_get' %}">Поставки</a></li>
     <li><a href="{% url 'bid' %}">Заявки</a></li>
     <li><a href="{% url 'schedule' %}">График</a></li>
     <li><a href="{% url 'wages' %}">ЗП</a></li>
-    <li><a href="{% url 'production' %}">Продукция</a></li>
+    <li><a href="{% url 'production' %}">Наша продукция</a></li>
+    <li><a href="{% url 'look_order' %}">Обработка заказов</a></li>
     </h2>
     </div>
 {% endblock mainmenu %}

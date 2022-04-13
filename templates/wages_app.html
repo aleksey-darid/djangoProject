@@ -1,22 +1,33 @@
-<!DOCTYPE html>
-{% load static %}
-<html lang="ru-Ru">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="{% static "css/styles.css" %}" />
-    <title>ЗП</title>
-</head>
-<body>
-<img src="{% static "/images/img.jpg" %}" alt="AMENIEL COFFEE" sizes="950">
-
-<a href="{% url 'home' %}">Главная страница</a>
-
-<form action="" method="post">
-        {% csrf_token %}
-        <h2>{{ form }}</h2>
-        <input type="submit" name="send" id="send">
+{% extends "base.html" %}
+{% block get %}
+    <h1>Список работников</h1>
+    <div align="left">
+<ul>
+    {% for w in worker %}
+        <li>
+        <h2>Работник: {{ w.user.username }}</h2>
+        <p>ID работника: {{ w.id }}</p>
+        <hr>
+        </li>
+    {% endfor %}
+</ul>
+    </div>
+{% endblock get %}
+{% block content %}
+<form action="" method="post" name="add">
+    {% csrf_token %}
+    <h1>Расчитать зарплату</h1>
+    <h2>{{ message_empty }}</h2>
+    <h2>{{ message_err }}</h2>
+    <h2>{{ salary }}</h2>
+    <p>Введите ID работника</p>
+        <input type="text" name="worker" id="worker">
+    <p>С кокого числа?</p>
+        <input type="date" name="from" id="from">
+    <p>По какое?</p>
+        <input type="date" name="to" id="to">
+    <p></p>
+        <input type="submit" name="add" id="add">
 </form>
-<br>
 <h2>{{ pay_text }} {{ pay }} {{ r }}</h2>
-</body>
-</html>
+{% endblock content %}

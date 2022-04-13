@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form action="" method="post" name="add">
+    {% csrf_token %}
+        <p>Выберите продукт</p>
+        {{ form.product }}
+        <p>Укажите колличество</p>
+        {{ form.how_math }}
+        <p>Укажите номер телефона для связи</p>
+        {{ form.phone }}
+        <input type="submit" name="add" id="add">
+
+</form>
+{% endblock content %}

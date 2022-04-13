@@ -1,3 +1,4 @@
+import datetime
 from inspect import Traceback
 from django.contrib.auth.models import Group, Permission
 from django.contrib import auth
@@ -12,6 +13,9 @@ from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from Management.models import ProductionModel
+from Users.forms import OrderForm, UserForm
+from Users.models import OrderModel, WorkersModel
 from Users.serializers import UserSerializer
 
 
@@ -62,54 +66,106 @@ def logout_app(request):
         return render(request, "logout_page.html", context=logout_message)
 
 
-def user_app(request):
+class Workers:
+
+    def workers_get(self, request):
+        if request.method == "GET":
+            dat = User.objects.filter(groups__name="Workers")
+            return render(request, "workers_app.html", {"dat": dat})
+        return render(request, "workers_app.html")
+
+    def workers_add(self, request):
+        if request.method == "GET":
+            dat = User.objects.filter(groups__name="Workers")
+            return render(request, "workers_add.html", {"dat": dat})
+        elif request.method == "POST" and request.POST.get("add"):
+            message_empty = {"message_empty": "Поля не могут быть пустыми!"}
+            data = request.POST.get
+            name = data("name")
+            pay = data("pay")
+            if name and pay:
+                user = User.objects.get(id=name)
+                user.groups.add(Group.objects.get(name='Workers'))
+                WorkersModel.objects.create(user=user, rate_per_hour=pay)
+                return redirect("workers")
+            else:
+                return render(request, "workers_add.html", context=message_empty)
+        return render(request, "workers_app.html")
+
+    def workers_del(self, request):
+        if request.method == "GET":
+            dat = User.objects.filter(groups__name="Workers")
+            return render(request, "workers_del.html", {"dat": dat})
+        elif request.method == "POST" and request.POST.get("del"):
+            message_empty = {"message_empty": "Поля не могут быть пустыми!"}
+            data = request.POST.get
+            del_name = data("del_name")
+            if del_name:
+                d = WorkersModel.objects.get(id=del_name)
+                d.user.groups.clear()
+                d.user.groups.add(Group.objects.get(name='Users'))
+                d.delete()
+                return redirect("workers")
+            else:
+                return render(request, "workers_del.html", context=message_empty)
+        return render(request, "workers_app.html")
+
+    def workers_put(self, request):
+        if request.method == "GET":
+            dat = User.objects.filter(groups__name="Workers")
+            return render(request, "workers_put.html", {"dat": dat})
+        elif request.method == "POST" and request.POST.get("put"):
+            message_empty = {"message_empty": "Поля не могут быть пустыми!"}
+            message_err = {"message_err": "Проверьте правильность вводимой информации!"}
+            data = request.POST.get
+            id = data("id")
+            pay = data("pay")
+            if id and pay:
+                try:
+                    s = WorkersModel.objects.get(id=id)
+                    s.rate_per_hour = pay
+                    s.save()
+                    return redirect("workers")
+                except:
+                    return render(request, "workers_put.html", context=message_err)
+            else:
+                return render(request, "workers_put.html", context=message_empty)
+        return render(request, "workers_app.html")
+
+
+def users_app(request):
     if request.method == "GET":
-        dat = Group.objects.filter(name='Users').in_bulk()
-        print(dat)
-        #  dat = User.objects.in_bulk()
-        dat_list1 = str(dat.values()).replace(":", ",").split(",")
-        dat_list = list(dat_list1)
-        new_dat = []
-
-        count = 0
-        for i in dat_list:
-            count += 1
-            if count == 2:
-                new_dat.append(i)
-                count = 0
-        new_dat2 = str(new_dat).replace("'", "").replace("[", "").replace("]", "").replace(">", "").replace(")", "")
-        users_list = {"users_list": new_dat2}
-        return render(request, "users_app.html", context=users_list)
-    return render(request, "users_app.html")
+        form = User.objects.all()
+        return render(request, "users.html", {"form": form})
 
 
-def workers_app(request):
+def order_app(request):
     if request.method == "GET":
-        dat = User.objects.filter(groups__name="Workers")
-        dat_list1 = str(dat.values()).replace(":", ",").split(",")
-        dat_list = list(dat_list1)
-        new_dat = []
-        count = 0
-        for i in dat_list:
-            count += 1
-            if count == 10:
-                new_dat.append(i)
-            elif count == 38:
-                new_dat.append(i)
-                count = 0
-        new_dat2 = str(new_dat).replace("'", "").replace("[", "").replace("]", "").replace(">",
-                                                                                           "").replace(")",
-                                                                                                       "").replace('"',
-                                                                                                                   "")
-        workers_list = {"workers_list": new_dat2}
-        return render(request, "workers_app.html", context=workers_list)
-    return render(request, "workers_app.html")
+        form = OrderForm(request.GET)
+        return render(request, "order_app.html", {"form": form})
+    elif request.method == "POST":
+        form = OrderForm(request.POST)
+        user_id = request.session.get("_auth_user_id")
+        user = User.objects.get(id=user_id)
+        form.is_valid()
+        product = form.cleaned_data.get('product')
+        how_math = form.cleaned_data.get('how_math')
+        phone = form.cleaned_data.get('phone')
+        OrderModel.objects.create(user=user, product=product, how_math=how_math, phone=phone)
+        return render(request, "production_app.html", {"message": "Ваш заказ принят в обработку,"
+                                                                  " в ближайшее время менеджер свяжется"
+                                                                  " с вами для уточнения деталей."})
+    return render(request, "order_app.html")
 
 
-def administration_app(request):
-    return render(request, "administration_app.html")
+def look_order_app(request):
+    if request.method == "GET":
+        orders = OrderModel.objects.all()
+        return render(request, "look_order.html", {"orders": orders})
+    elif request.method == "POST":
+        pass
 
 
 def home_app(request):
     title = {"title": "Главная страница"}
-    return render(request, "home_app.html", context=title)
+    return render(request, "base.html", context=title)

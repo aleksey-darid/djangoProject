@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block get %}
+<h1>Список пользователей</h1>
+    <div align="left">
+<ul>
+    {% for f in form %}
+        <li>
+        <h2>ID пользователя: {{ f.id }}</h2>
+        <h2>Имя пользователя: {{ f.username }}</h2>
+        <p>email пользователя: {{ f.email }}</p>
+        <hr>
+        </li>
+    {% endfor %}
+</ul>
+    </div>
+{% endblock get %}

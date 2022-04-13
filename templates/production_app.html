@@ -1,14 +1,20 @@
-<!DOCTYPE html>
-{% load static %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="{% static "css/styles.css" %}" />
-    <title>Title</title>
-
-</head>
-<body>
-<img src="{% static "/images/img.jpg" %}" alt="AMENIEL COFFEE" sizes="950">
-<a href="{% url 'home' %}">Главная страница</a>
-</body>
-</html>
+{% extends "base.html" %}
+{% block get %}
+<h2>{{ message }}</h2>
+    <h1>Наша продукция</h1>
+    <div align="left">
+<ul>
+    {% for p in product %}
+        <li>
+        <h2>Наименование: {{ p.name }}</h2>
+        <p>Размер: {{ p.size }}</p>
+        <p>Стоимость: {{ p.price }}</p>
+        <hr>
+        </li>
+    {% endfor %}
+</ul>
+    </div>
+{% endblock get %}
+{% block content %}
+    <h2><a href="{% url "order" %}">Оформить заказ</a></h2>
+{% endblock content %}

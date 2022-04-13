@@ -5,7 +5,7 @@
     <h2>{{ message_err }}</h2>
 <form action="" method="post" name="put">
         {% csrf_token %}
-        <p>Введите название поставщика, данные которого хотите изменить</p>
+        <p>Введите ID поставщика, данные которого хотите изменить</p>
         <input type="text"  name="put_name" id="put_name">
         <p>Введите новое имя поставщика</p>
         <input type="text" name="name" id="name" >

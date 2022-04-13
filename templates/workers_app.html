@@ -1,20 +1,21 @@
-<!DOCTYPE html>
-{% load static %}
-<html lang="ru-RU">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="{% static "css/styles.css" %}" />
-    <title>Сотрудники</title>
-
-</head>
-<body>
-<img src="{% static "/images/img.jpg" %}" alt="AMENIEL COFFEE">
-<a href="{% url 'home' %}">Главная страница</a>
+{% extends "base.html" %}
+{% block get %}
 <h1>Список сотрудников</h1>
-<form action="" method="GET">
-        {% csrf_token %}
-        <h2>{{ workers_list }}</h2>
-        </form>
-
-</body>
-</html>
+    <div align="left">
+<ul>
+    {% for d in dat %}
+        <li>
+        <h2>ID сотрудника: {{ d.workersmodel.id }}</h2>
+        <h2>Сотрудник: {{ d.username }}</h2>
+        <p>Ставка в час: {{ d.workersmodel.rate_per_hour }}</p>
+        <hr>
+        </li>
+    {% endfor %}
+</ul>
+    </div>
+{% endblock get %}
+{% block content %}
+    <h2><a href="{% url "workers_add" %}">Добавить сотрудника </a></h2>
+    <h2><a href="{% url "workers_del" %}">Удалить сотрудника </a></h2>
+    <h2><a href="{% url "workers_put" %}">Изменить ставку сотрудника </a></h2>
+{% endblock content %}
