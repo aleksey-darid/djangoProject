@@ -7,8 +7,8 @@ from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
-from Administration.models import ScheduleModel
-from Users.models import WorkersModel
+from Administration.models import ScheduleModel, BidModel
+from Users.models import WorkersModel, OrderModel
 from .forms import SupplyForm, SuppliersForm, ProductionForm, WagesForm
 from .models import SuppliersModel, ProductionModel, SupplyModel, WagesModel
 from .serializers import SupplySerializer, SuppliersSerializer, ProductionSerializer, WagesSerializer
@@ -49,7 +49,8 @@ class Supply:
     def supply_add(self, request):
         if request.method == "GET":
             dat = SupplyModel.objects.all()
-            return render(request, "supply_add.html", {'dat': dat, 'title': "Поставки"})
+            dat2 = SuppliersModel.objects.all()
+            return render(request, "supply_add.html", {'dat': dat, "dat2": dat2, "title": "Поставки"})
         elif request.method == "POST" and request.POST.get("add"):
             message_empty = {"message_empty": "Поля не могут быть пустыми!"}
             message_err = {"message_err": "Проверьте правильность вводимой информации!"}
@@ -59,7 +60,7 @@ class Supply:
             amo = data("amo")
             if sup and dat and amo:
                 try:
-                    supplier = SuppliersModel.objects.get(name=sup)
+                    supplier = SuppliersModel.objects.get(id=sup)
                     SupplyModel.objects.create(supplier=supplier, date=dat, amount=amo)
                     return redirect("supply_get")
                 except:
@@ -183,6 +184,7 @@ def production_app(request):
         return render(request, "production_app.html", {"product": product})
     return render(request, "production_app.html")
 
+
 def wages_app(request):
     if request.method == "GET":
         worker = WorkersModel.objects.all()
@@ -199,7 +201,8 @@ def wages_app(request):
         work_days = ScheduleModel.objects.filter(worker=worker)
         for i in work_days:
             print(type(i.date), type(date_to), type(date_from))
-            if datetime.datetime.combine(i.date, datetime.time()) >= date_from and datetime.datetime.combine(i.date, datetime.time()) <= date_to:
+            if datetime.datetime.combine(i.date, datetime.time()) >= date_from and datetime.datetime.combine(i.date,
+                                                                                                             datetime.time()) <= date_to:
                 days_list.append(i)
         delta_list = list()
         for i in days_list:
@@ -217,3 +220,19 @@ def wages_app(request):
         sch1.save()
         return render(request, "wages_app.html", context=pay1)
     return redirect("wages")
+
+
+def look_order_app(request):
+    if request.method == "GET":
+        orders = OrderModel.objects.all()
+        return render(request, "look_order.html", {"orders": orders})
+    elif request.method == "POST":
+        pass
+
+
+def look_bid_app(request):
+    if request.method == "GET":
+        bid = BidModel.objects.all()
+        return render(request, "look_bid.html", {"bid": bid})
+    elif request.method == "POST":
+        pass

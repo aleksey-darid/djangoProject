@@ -1,12 +1,22 @@
 {% extends "supply_app.html" %}
-
 {% block content %}
+      <div align="left">
+<ul>
+    {% for d in dat2 %}
+        <li>
+        <h2>Поставщик: {{ d.name }}</h2>
+        <h2>ID поставщика: {{ d.id }}</h2>
+        <hr>
+        </li>
+    {% endfor %}
+</ul>
+    </div>
 <form action="" method="post" name="add">
     {% csrf_token %}
     <h1>Добавить поставку</h1>
     <h2>{{ message_empty }}</h2>
     <h2>{{ message_err }}</h2>
-    <p>Введите имя поставщика</p>
+    <p>Введите ID поставщика</p>
         <input type="text" name="sup" id="sup">
     <p>Укажите дату поставки</p>
         <input type="date" name="dat" id="dat">

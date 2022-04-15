@@ -158,14 +158,19 @@ def order_app(request):
     return render(request, "order_app.html")
 
 
-def look_order_app(request):
-    if request.method == "GET":
-        orders = OrderModel.objects.all()
-        return render(request, "look_order.html", {"orders": orders})
-    elif request.method == "POST":
-        pass
-
-
 def home_app(request):
-    title = {"title": "Главная страница"}
-    return render(request, "base.html", context=title)
+    data = {"registration": "< li > < ahref = \"{% url 'registration' %}\" > Регистрация < / a > < / li >",
+            "login": "< li > < ahref = \"{% url 'login' %}\" > Вход / Выход < / a > < / li >",
+            "workers": "< li > < ahref = \"{% url 'workers' %}\" > Сотрудники < / a > < / li >",
+            "suppliers_get": "< li > < ahref = \"{% url 'suppliers_get' %}\" > Поставщики < / a > < / li >",
+            "supply_get": "< li > < ahref = \"{% url 'supply_get' %}\" > Поставки < / a > < / li >",
+            "bid": "< li > < ahref = \"{% url 'bid' %}\" > Заявки < / a > < / li >",
+            "schedule": "< li > < ahref = \"{% url 'schedule' %}\" > График < / a > < / li >",
+            "wages": "< li > < ahref = \"{% url 'wages' %}\" > ЗП < / a > < / li >",
+            "production": "< li > < ahref = \"{% url 'production' %}\" > Наша продукция < / a > < / li >",
+            "look_order": "< li > < ahref = \"{% url 'look_order' %}\" > Обработказаказов < / a > < / li >",
+            "look_bid": "< li > < ahref = \"{% url 'look_bid' %}\" > Обработказаявок < / a > < / li >",
+            "title": "Главная страница"}
+
+
+    return render(request, "base.html", context=data)

@@ -1,26 +1,12 @@
-<!DOCTYPE html>
-{% load static %}
-<html lang="ru-RU">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="{% static "css/styles.css" %}" />
-    <title>График</title>
-
-</head>
-<body>
-<a href="{% url 'home' %}">Главная страница</a>
-<img src="{% static "/images/img.jpg" %}" alt="AMENIEL COFFEE">
-<H1>Добро пожаловать в раздел работы с графиком!</H1>
+{% extends "base.html" %}
+{% block content %}
 <HR color="blue">
-<p>Тут вы сможете выбирать колличество фактически отработанных часов</p>
-<br>
-
+<h2>Тут вы сможете выбирать колличество фактически отработанных часов</h2>
+<HR color="blue">
 <h2>{{ message }}</h2>
 <h2>{{ error_message }}</h2>
 <br>
 <table border="2" width="20%">
-
-    </tr>
      <tr>
         <th>{{ worker }}</th>
     <td width="1">
@@ -31,10 +17,5 @@
         <input type="time" name="time_to" id="time_to">
         <input type="submit" name="send" id="send">
         </form></td>
-
 </table>
-
-<br>
-
-</body>
-</html>
+{% endblock content %}

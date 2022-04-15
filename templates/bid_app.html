@@ -1,25 +1,11 @@
-<!DOCTYPE html>
-{% load static %}
-<html lang="ru-RU">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="{% static "css/styles.css" %}" />
-    <title>Заявки</title>
-
-</head>
-<body>
-<img src="{% static "/images/img.jpg" %}" alt="AMENIEL COFFEE">
-<a href="{% url 'home' %}">Главная страница</a>
-<h1>Сделать заявку</h1>
-
+{% extends "base.html" %}
+{% block content %}
 <form action="" method="post" name="del">
         {% csrf_token %}
-        <p>Введите текст заявки</p>
+        <h2>Введите текст заявки</h2>
         <h2>{{ form }}</h2>
         <input type="submit" name="send" id="send">
         </form>
 <h2>{{ error_message_empty }}</h2>
 <h2>{{ message }}</h2>
-
-</body>
-</html>
+{% endblock content %}

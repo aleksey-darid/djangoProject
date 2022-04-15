@@ -1,6 +1,6 @@
 from django.urls import path
 
-from Management.views import production_app, wages_app, Sup_app, Suppliers, Supply
+from Management.views import production_app, wages_app, Sup_app, Suppliers, Supply, look_order_app, look_bid_app
 
 suppliers_crud = Suppliers()
 supply_crud = Supply()
@@ -14,6 +14,8 @@ urlpatterns = [
     path('suppliers_add/', suppliers_crud.suppliers_add, name="suppliers_add"),
     path('suppliers_put/', suppliers_crud.suppliers_put, name="suppliers_put"),
     path('production_page/', production_app, name="production"),
+    path('look_order_page/', look_order_app, name="look_order"),
+    path('look_bid_page/', look_bid_app, name="look_bid"),
     path('wages_page/', wages_app, name="wages"),
     path('sup/', Sup_app),
 

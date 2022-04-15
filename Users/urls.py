@@ -1,6 +1,6 @@
 from django.urls import path
 
-from Users.views import login_app, logout_app, registration_app, order_app, look_order_app, Workers, users_app
+from Users.views import login_app, logout_app, registration_app, order_app, Workers, users_app
 
 workers_crud = Workers()
 urlpatterns = [
@@ -13,5 +13,5 @@ urlpatterns = [
     path('logout_page/', logout_app, name="logout"),
     path('registration_page/', registration_app, name="registration"),
     path('order_page/', order_app, name="order"),
-    path('look_order_page/', look_order_app, name="look_order"),
+
 ]

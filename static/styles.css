@@ -1,0 +1,28 @@
+title {
+    color: black;
+}
+body {
+    background: black url("images/img20.jpg");
+    background-size: 100%;
+}
+
+h1 {
+    color: dodgerblue;
+}
+
+h2 {
+    color: dodgerblue;
+}
+
+p {
+    color: dodgerblue;
+}
+
+a {
+    color: blue;
+}
+
+img {
+    width: 350px;
+}
+

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     {% block link %}
-    <link rel="stylesheet" href="{% static "css/styles.css" %}" />
+    <link rel="stylesheet" href="{% static "styles.css" %}" />
     {% endblock link %}
     <title>{{ title }}</title>
 </head>
@@ -23,6 +23,7 @@
     <li><a href="{% url 'wages' %}">ЗП</a></li>
     <li><a href="{% url 'production' %}">Наша продукция</a></li>
     <li><a href="{% url 'look_order' %}">Обработка заказов</a></li>
+    <li><a href="{% url 'look_bid' %}">Обработка заявок</a></li>
     </h2>
     </div>
 {% endblock mainmenu %}
