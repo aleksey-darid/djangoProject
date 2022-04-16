@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base_manager.html" %}
 {% block get %}
 <h1>Список поставок</h1>
     <div align="left">
@@ -7,6 +7,7 @@
         <li>
         <h2>id поставки: {{ d.id }}</h2>
         <h2>Поставщик: {{ d.supplier.name }}</h2>
+        <h2>Отсрочка платежа: {{ d.supplier.payment_deferment }}</h2>
         <p>Дата поставки: {{ d.date }}</p>
         <p>Сумма поставки: {{ d.amount }}</p>
         <hr>

@@ -63,7 +63,7 @@ def logout_app(request):
     elif request.method == "POST":
         logout_message = {"logout_message": "Вы вышли из системы"}
         logout(request)
-        return render(request, "logout_page.html", context=logout_message)
+        return redirect("home")
 
 
 class Workers:
@@ -146,31 +146,52 @@ def order_app(request):
     elif request.method == "POST":
         form = OrderForm(request.POST)
         user_id = request.session.get("_auth_user_id")
-        user = User.objects.get(id=user_id)
         form.is_valid()
         product = form.cleaned_data.get('product')
         how_math = form.cleaned_data.get('how_math')
         phone = form.cleaned_data.get('phone')
-        OrderModel.objects.create(user=user, product=product, how_math=how_math, phone=phone)
-        return render(request, "production_app.html", {"message": "Ваш заказ принят в обработку,"
-                                                                  " в ближайшее время менеджер свяжется"
-                                                                  " с вами для уточнения деталей."})
+        if user_id:
+            user = User.objects.get(id=user_id)
+            OrderModel.objects.create(user=user, product=product, how_math=how_math, phone=phone)
+            return render(request, "production_app.html", {"message": "Ваш заказ принят в обработку,"
+                                                                      " в ближайшее время менеджер свяжется"
+                                                                      " с вами для уточнения деталей."})
+        else:
+            OrderModel.objects.create(product=product, how_math=how_math, phone=phone)
+            return render(request, "production_app.html", {"message": "Ваш заказ принят в обработку,"
+                                                                      " в ближайшее время менеджер свяжется"
+                                                                      " с вами для уточнения деталей."})
     return render(request, "order_app.html")
 
 
 def home_app(request):
-    data = {"registration": "< li > < ahref = \"{% url 'registration' %}\" > Регистрация < / a > < / li >",
-            "login": "< li > < ahref = \"{% url 'login' %}\" > Вход / Выход < / a > < / li >",
-            "workers": "< li > < ahref = \"{% url 'workers' %}\" > Сотрудники < / a > < / li >",
-            "suppliers_get": "< li > < ahref = \"{% url 'suppliers_get' %}\" > Поставщики < / a > < / li >",
-            "supply_get": "< li > < ahref = \"{% url 'supply_get' %}\" > Поставки < / a > < / li >",
-            "bid": "< li > < ahref = \"{% url 'bid' %}\" > Заявки < / a > < / li >",
-            "schedule": "< li > < ahref = \"{% url 'schedule' %}\" > График < / a > < / li >",
-            "wages": "< li > < ahref = \"{% url 'wages' %}\" > ЗП < / a > < / li >",
-            "production": "< li > < ahref = \"{% url 'production' %}\" > Наша продукция < / a > < / li >",
-            "look_order": "< li > < ahref = \"{% url 'look_order' %}\" > Обработказаказов < / a > < / li >",
-            "look_bid": "< li > < ahref = \"{% url 'look_bid' %}\" > Обработказаявок < / a > < / li >",
-            "title": "Главная страница"}
-
-
-    return render(request, "base.html", context=data)
+    data = {"title": "AMENIEL COFFEE"}
+    if request.method == "GET":
+        user_id = request.session.get("_auth_user_id")
+        try:
+            user = User.objects.get(id=user_id)
+            groups = user.groups.filter()
+            group1 = groups[0].name
+            try:
+                group2 = groups[1].name
+                if group1 == "Users" and group2 == "Workers":
+                    return render(request, "base_worker.html", context=data)
+                elif group1 == "Users" and group2 == "Manager":
+                    return render(request, "base_manager.html", context=data)
+                elif group1 == "Users" and group2 == "Dev":
+                    return render(request, "base.html", context=data)
+                else:
+                    return render(request, "base_user.html", context=data)
+            except:
+                if group1 == "Users":
+                    return render(request, "base_user.html", context=data)
+                elif group1 == "Workers":
+                    return render(request, "base_worker.html", context=data)
+                elif group1 == "Manager":
+                    return render(request, "base_manager.html", context=data)
+                elif group1 == "Dev":
+                    return render(request, "base.html", context=data)
+                else:
+                    return render(request, "base_user.html", context=data)
+        except:
+            return render(request, "base_user.html")

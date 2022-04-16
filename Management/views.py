@@ -1,15 +1,9 @@
 import datetime
-
 from django.contrib.auth.models import User
-from django.http import request
 from django.shortcuts import render, redirect
-from rest_framework.renderers import TemplateHTMLRenderer
-from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
-
 from Administration.models import ScheduleModel, BidModel
 from Users.models import WorkersModel, OrderModel
-from .forms import SupplyForm, SuppliersForm, ProductionForm, WagesForm
 from .models import SuppliersModel, ProductionModel, SupplyModel, WagesModel
 from .serializers import SupplySerializer, SuppliersSerializer, ProductionSerializer, WagesSerializer
 
@@ -194,13 +188,11 @@ def wages_app(request):
         id_worker = data("worker")
         u_worker = WorkersModel.objects.get(pk=id_worker)
         worker = User.objects.get(workersmodel=u_worker)
-        print(worker)
         date_from = datetime.datetime.strptime(data("from"), "%Y-%m-%d")
         date_to = datetime.datetime.strptime(data("to"), "%Y-%m-%d")
         days_list = list()
         work_days = ScheduleModel.objects.filter(worker=worker)
         for i in work_days:
-            print(type(i.date), type(date_to), type(date_from))
             if datetime.datetime.combine(i.date, datetime.time()) >= date_from and datetime.datetime.combine(i.date,
                                                                                                              datetime.time()) <= date_to:
                 days_list.append(i)
@@ -212,11 +204,9 @@ def wages_app(request):
             s += i
         hours = s / 60
         r_p_h = int(u_worker.rate_per_hour)
-        print(r_p_h)
         pay = hours * r_p_h
         pay1 = {"pay": pay, "pay_text": "Ваша ЗП за выбраный период составит -", "r": "р."}
         sch1 = WagesModel(worker=worker, date_from=date_from, date_to=date_to, hours=hours, total_wages=pay)
-        print(sch1)
         sch1.save()
         return render(request, "wages_app.html", context=pay1)
     return redirect("wages")
@@ -236,3 +226,6 @@ def look_bid_app(request):
         return render(request, "look_bid.html", {"bid": bid})
     elif request.method == "POST":
         pass
+
+
+

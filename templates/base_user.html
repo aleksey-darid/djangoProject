@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% block link %}
+    <link rel="stylesheet" href="{% static "styles.css" %}" />
+    {% endblock link %}
+    <title>{{ title }}</title>
+</head>
+<body text="#336699" bgcolor="#000000">
+{% block mainmenu %}
+    <div align="left">
+    <h2>
+    <a href="{% url 'home' %}">Главная страница</a>
+    <li><a href="{% url 'registration' %}">Регистрация</a></li>
+    <li><a href="{% url 'login' %}">Вход/Выход</a></li>
+    <li><a href="{% url 'production' %}">Наша продукция</a></li>
+    {% block info %}
+    <p>Наш адрес:</p>
+    <p> ул. Петра Мстиславца 12/230</p>
+    <p>Время работы:</p>
+    <p> с 09:00 до 23:00</p>
+    <p>Телефон для связи:</p>
+    <p>+375-29-154-51-65</p>
+    {% endblock info %}
+    </h2>
+    </div>
+{% endblock mainmenu %}
+{% block center %}
+<div align="center">
+{% block get %}
+
+{% endblock get %}
+{% block content %}
+
+{% endblock content %}
+</div>
+{% endblock center %}
+</body>
+</html>

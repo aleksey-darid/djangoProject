@@ -1,4 +1,17 @@
-{% extends "base.html" %}
+{% extends "base_worker.html" %}
+{% block get %}
+    <div align="left">
+<ul>
+    {% for s in look_sc %}
+        <li>
+        <h2>Рабочий день: {{ s.date }}</h2>
+        <h2>Рабочее время: с {{ s.time_from }} по {{ s.time_to }}</h2>
+        <hr>
+        </li>
+    {% endfor %}
+</ul>
+    </div>
+{% endblock get %}
 {% block content %}
 <HR color="blue">
 <h2>Тут вы сможете выбирать колличество фактически отработанных часов</h2>

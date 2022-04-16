@@ -21,7 +21,7 @@ class ManagerModel(models.Model):
 
 
 class OrderModel(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     date = models.DateTimeField(auto_now=True)
     product = models.ForeignKey(ProductionModel, on_delete=models.CASCADE)
     how_math = models.IntegerField()

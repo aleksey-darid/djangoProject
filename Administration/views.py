@@ -30,14 +30,19 @@ def bid_app(request):
             bid_tot = BidModel(**form.cleaned_data)
             print(bid_tot)
             bid_tot.save()
-        return redirect("bid")
+        return redirect("home")
 
 
 def schedule_app(request):
     if request.method == "GET":
-        ses_user2 = request.user.username
+        ses_user = request.user.username
         form = ScheduleForm()
-        worker = {"worker": ses_user2, "form": form}
+        look_s = ScheduleModel.objects.filter(worker__username=ses_user)
+        look_sc = []
+        for i in look_s:
+            if i.date.month == datetime.now().month:
+                look_sc.append(i)
+        worker = {"worker": ses_user, "form": form, "look_sc": look_sc}
         return render(request, "schedule_app.html", context=worker)
     elif request.method == "POST":
         form = ScheduleForm(request.POST)
