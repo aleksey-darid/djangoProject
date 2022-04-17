@@ -35,12 +35,14 @@ class WagesView(ModelViewSet):
 class Supply:
 
     def supply_get(self, request):
+        """Функция для отображения объектов модели SupplyModel и их свойств"""
         if request.method == "GET":
-            dat = SupplyModel.objects.all()
+            dat = SupplyModel.objects.all()  #  Получаем все объекты модели из базы
             return render(request, "supply_app.html", {'dat': dat, 'title': "Поставки"})
         return render(request, "supply_app.html")
 
     def supply_add(self, request):
+        """Функция для добывленя нового объекта в модель SupplyModel"""
         if request.method == "GET":
             dat = SupplyModel.objects.all()
             dat2 = SuppliersModel.objects.all()
@@ -64,6 +66,7 @@ class Supply:
         return render(request, "supply_app.html")
 
     def supply_del(self, request):
+        """Функция для удаления объекта из модели SupplyModel"""
         if request.method == "GET":
             dat = SupplyModel.objects.all()
             return render(request, "supply_del.html", {'dat': dat, 'title': "Поставки"})
@@ -80,6 +83,7 @@ class Supply:
         return render(request, "supply_app.html")
 
     def supply_put(self, request):
+        """Функция для изменения объекта модели SupplyModel"""
         if request.method == "GET":
             dat = SupplyModel.objects.all()
             return render(request, "supply_put.html", {'dat': dat, 'title': "Поставки"})
