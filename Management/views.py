@@ -186,29 +186,33 @@ def wages_app(request):
     elif request.method == "POST":
         data = request.POST.get
         id_worker = data("worker")
-        u_worker = WorkersModel.objects.get(pk=id_worker)
-        worker = User.objects.get(workersmodel=u_worker)
-        date_from = datetime.datetime.strptime(data("from"), "%Y-%m-%d")
-        date_to = datetime.datetime.strptime(data("to"), "%Y-%m-%d")
-        days_list = list()
-        work_days = ScheduleModel.objects.filter(worker=worker)
-        for i in work_days:
-            if datetime.datetime.combine(i.date, datetime.time()) >= date_from and datetime.datetime.combine(i.date,
-                                                                                                             datetime.time()) <= date_to:
-                days_list.append(i)
-        delta_list = list()
-        for i in days_list:
-            delta_list.append(i.delta)
-        s = 0
-        for i in delta_list:
-            s += i
-        hours = s / 60
-        r_p_h = int(u_worker.rate_per_hour)
-        pay = hours * r_p_h
-        pay1 = {"pay": pay, "pay_text": "Ваша ЗП за выбраный период составит -", "r": "р."}
-        sch1 = WagesModel(worker=worker, date_from=date_from, date_to=date_to, hours=hours, total_wages=pay)
-        sch1.save()
-        return render(request, "wages_app.html", context=pay1)
+        try:
+            u_worker = WorkersModel.objects.get(pk=id_worker)
+            worker = User.objects.get(workersmodel=u_worker)
+            date_from = datetime.datetime.strptime(data("from"), "%Y-%m-%d")
+            date_to = datetime.datetime.strptime(data("to"), "%Y-%m-%d")
+            days_list = list()
+            work_days = ScheduleModel.objects.filter(worker=worker)
+            for i in work_days:
+                if datetime.datetime.combine(i.date, datetime.time()) >= date_from and datetime.datetime.combine(i.date,
+                                                                                                                 datetime.time()) <= date_to:
+                    days_list.append(i)
+            delta_list = list()
+            for i in days_list:
+                delta_list.append(i.delta)
+            s = 0
+            for i in delta_list:
+                s += i
+            hours = s / 60
+            r_p_h = int(u_worker.rate_per_hour)
+            pay = hours * r_p_h
+            pay1 = {"pay": pay, "pay_text": "Ваша ЗП за выбраный период составит -", "r": "р."}
+            sch1 = WagesModel(worker=worker, date_from=date_from, date_to=date_to, hours=hours, total_wages=pay)
+            sch1.save()
+            return render(request, "wages_app.html", context=pay1)
+        except:
+            return render(request, "wages_app.html", {"message2": "Неверный ID"})
+
     return redirect("wages")
 
 
