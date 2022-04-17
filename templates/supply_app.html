@@ -5,7 +5,6 @@
 <ul>
     {% for d in dat %}
         <li>
-        <h2>id поставки: {{ d.id }}</h2>
         <h2>Поставщик: {{ d.supplier.name }}</h2>
         <h2>Отсрочка платежа: {{ d.supplier.payment_deferment }}</h2>
         <p>Дата поставки: {{ d.date }}</p>

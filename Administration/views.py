@@ -1,8 +1,6 @@
 from datetime import datetime
-
 from django.shortcuts import render, redirect
 from rest_framework.viewsets import ModelViewSet
-
 from Administration.forms import BidForm, ScheduleForm
 from Administration.models import BidModel, ScheduleModel
 from Administration.serializers import ScheduleSerializer, BidSerializer
@@ -25,10 +23,8 @@ def bid_app(request):
         return render(request, "bid_app.html", context=form_html)
     elif request.method == "POST":
         form = BidForm(request.POST)
-        print(form)
         if form.is_valid():
             bid_tot = BidModel(**form.cleaned_data)
-            print(bid_tot)
             bid_tot.save()
         return redirect("home")
 
@@ -53,8 +49,6 @@ def schedule_app(request):
             dt = datetime.strptime(str(form.cleaned_data.get("date")) + str(form.cleaned_data.get("time_to")),
                                    "%Y-%m-%d%H:%M:%S")
             delta = (dt - df).seconds / 60
-            print(df, dt, delta)
             sch1 = ScheduleModel(**form.cleaned_data, worker=request.user, delta=delta)
-            print(sch1)
             sch1.save()
         return redirect("schedule")

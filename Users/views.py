@@ -1,20 +1,10 @@
-import datetime
-from inspect import Traceback
-from django.contrib.auth.models import Group, Permission
-from django.contrib import auth
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import Group
 from django.shortcuts import render, redirect
 from rest_framework import viewsets
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-import logging
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from rest_framework.renderers import TemplateHTMLRenderer
-from rest_framework.response import Response
-from rest_framework.views import APIView
-
-from Management.models import ProductionModel
-from Users.forms import OrderForm, UserForm
+from django.contrib.auth.forms import UserCreationForm
+from Users.forms import OrderForm
 from Users.models import OrderModel, WorkersModel
 from Users.serializers import UserSerializer
 
@@ -61,7 +51,6 @@ def logout_app(request):
     if request.method == "GET":
         return render(request, "logout_page.html")
     elif request.method == "POST":
-        logout_message = {"logout_message": "Вы вышли из системы"}
         logout(request)
         return redirect("home")
 
@@ -140,6 +129,8 @@ def users_app(request):
 
 
 def order_app(request):
+    message = {"message": "Ваш заказ принят в обработку, в ближайшее время менеджер свяжется с вами для уточнения "
+                          "деталей."}
     if request.method == "GET":
         form = OrderForm(request.GET)
         return render(request, "order_app.html", {"form": form})
@@ -153,14 +144,10 @@ def order_app(request):
         if user_id:
             user = User.objects.get(id=user_id)
             OrderModel.objects.create(user=user, product=product, how_math=how_math, phone=phone)
-            return render(request, "production_app.html", {"message": "Ваш заказ принят в обработку,"
-                                                                      " в ближайшее время менеджер свяжется"
-                                                                      " с вами для уточнения деталей."})
+            return render(request, "production_app.html", context=message)
         else:
             OrderModel.objects.create(product=product, how_math=how_math, phone=phone)
-            return render(request, "production_app.html", {"message": "Ваш заказ принят в обработку,"
-                                                                      " в ближайшее время менеджер свяжется"
-                                                                      " с вами для уточнения деталей."})
+            return render(request, "production_app.html", context=message)
     return render(request, "order_app.html")
 
 
