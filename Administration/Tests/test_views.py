@@ -1,7 +1,8 @@
-from rest_framework.test import APITestCase
+from django.test import TestCase
+from Administration.models import BidModel, ScheduleModel
 
 
-class AdministrationTestCase(APITestCase):
+class AdministrationTestCase(TestCase):
 
     def test_BidViews(self):
         pass

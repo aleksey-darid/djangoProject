@@ -1,17 +1,24 @@
-version: '3.1'
+version: '3.8'
 
 services:
 
   db:
     image: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
     restart: always
     environment:
-      NAME: ameniel_db
-      LOGIN: aleksey
-      POSTGRES_PASSWORD: gt7tdi1sssd
-
-  adminer:
-    image: adminer
-    restart: always
+      - POSTGRES_USER=aleksey
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=ameniel_db
+  web:
+    build: .
+    command: python /usr/src/djangoProject/manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/usr/src/djangoProject
     ports:
-      - 8080:8080
+      - 8000:8000
+    depends_on:
+      - db
+volumes:
+  postgres_data:
