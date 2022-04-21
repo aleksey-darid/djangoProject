@@ -4,6 +4,8 @@ from rest_framework import viewsets
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
+
+from Management.models import ProductionModel
 from Users.forms import OrderForm
 from Users.models import OrderModel, WorkersModel
 from Users.serializers import UserSerializer
@@ -182,3 +184,44 @@ def home_app(request):
                     return render(request, "base_user.html", context=data)
         except:
             return render(request, "base_user.html")
+
+
+class First:
+    def add_groops(self, request):
+        try:
+            group_dev = Group.objects.create(name='Dev')
+            group_wor = Group.objects.create(name='Workers')
+            group_users = Group.objects.create(name='Users')
+            group_manager = Group.objects.create(name='Manager')
+            return redirect("home")
+        except:
+            return redirect("home")
+    def add_su_in_Dev(self, request):
+        try:
+            ses_user = request.user.username
+            user = User.objects.get(username=ses_user)
+            user.groups.add(Group.objects.get(name='Dev'))
+            return redirect("home")
+        except:
+            return redirect("home")
+
+    def add_manager(self, request):
+        try:
+            manager = User.objects.create(username="Manager", password="manager1Manager1")
+            u = User.objects.create(username="User", password="user1User1")
+            w1 = User.objects.create(username="Worker1", password="worker1Worker1")
+            w2 = User.objects.create(username="Worker2", password="worker2Worker2")
+            user = authenticate(username=manager.username, password=manager.password)
+            user.groups.add(Group.objects.get(name='Manager'))
+            return redirect("home")
+        except:
+            return redirect("home")
+
+    def add_production(self, request):
+        try:
+            pr = ProductionModel.objects.create(name="AMENIEL", size="250 g,", price=30)
+            pr1 = ProductionModel.objects.create(name="AMENIEL", size="500 g,", price=50)
+            return redirect("home")
+        except:
+            return redirect("home")
+

@@ -85,7 +85,7 @@ DATABASES = {
         'NAME': 'ameniel_db',
         'USER': 'aleksey',
         'PASSWORD': 'postgres',
-        'HOST': '127.0.0.1',
+        'HOST': 'db',  # '127.0.0.1',
         'PORT': '5432'
     }
 }
