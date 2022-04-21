@@ -3,6 +3,7 @@
 Описание: Сайт кофейни с дополнительными функциями администрирования для сотрудников и руководства. 
 Для запуска проекта:
 Выполните комманды:
+
 docker-compose build
 
 docker-compose run web python /usr/src/djangoProject/manage.py migrate
