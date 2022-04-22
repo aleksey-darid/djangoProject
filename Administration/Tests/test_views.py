@@ -1,5 +1,4 @@
 from django.test import TestCase
-from Administration.models import BidModel, ScheduleModel
 
 
 class AdministrationTestCase(TestCase):

@@ -43,7 +43,7 @@ def login_app(request):
         password = request.POST['password']  # Получаем знычение password
         user = authenticate(username=username, password=password)  # Проверяем есть ли такой пользователь
         if user is not None:
-            t = login(request, user)  # Если такой пользователь есть - осуществляем привязку к сессии
+            login(request, user)  # Если такой пользователь есть - осуществляем привязку к сессии
             return render(request, "login_page.html", context=message)
         else:
             return render(request, "login_page.html", context=error_message)

@@ -23,5 +23,5 @@ class HRApiTestCase(APITestCase):
         user2 = User.objects.create(username="test2", password="test2")
         pr1 = ProductionModel.objects.create(name="test1", size=250, price=125.50)
         pr2 = ProductionModel.objects.create(name="test2", size=1000, price=12.50)
-        ord1 = OrderModel.objects.create(user=user1, date="2022-03-21 01:00:00", num=1, product=pr1, how_math=1)
-        ord2 = OrderModel.objects.create(user=user2, date="2022-03-22 02:00:00", num=2, product=pr2, how_math=2)
+        ord1 = OrderModel.objects.create(user=user1, date="2022-03-21 01:00:00", phone=+375291, product=pr1, how_math=1)
+        ord2 = OrderModel.objects.create(user=user2, date="2022-03-22 02:00:00", phone=80442, product=pr2, how_math=2)

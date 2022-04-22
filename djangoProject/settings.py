@@ -13,6 +13,8 @@ import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+import djangoProject
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -84,8 +86,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'ameniel_db',
         'USER': 'aleksey',
-        'PASSWORD': 'postgres',
-        'HOST': 'db',  # '127.0.0.1',
+        'PASSWORD': 'postgres', # 'postgres',
+        'HOST': '127.0.0.1',  # '127.0.0.1',
         'PORT': '5432'
     }
 }
