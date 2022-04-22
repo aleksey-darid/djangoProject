@@ -37,7 +37,7 @@ class Supply:
     def supply_get(self, request):
         """Функция для отображения объектов модели SupplyModel и их свойств"""
         if request.method == "GET":
-            dat = SupplyModel.objects.all()  #  Получаем все объекты модели из базы
+            dat = SupplyModel.objects.all()  # Получаем все объекты модели из базы
             return render(request, "supply_app.html", {'dat': dat, 'title': "Поставки"})
         return render(request, "supply_app.html")
 
@@ -234,6 +234,3 @@ def look_bid_app(request):
         return render(request, "look_bid.html", {"bid": bid})
     elif request.method == "POST":
         pass
-
-
-
