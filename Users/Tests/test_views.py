@@ -1,4 +1,7 @@
+from django.contrib.auth.models import User, Group
 from django.test import TestCase, Client
+
+from Users.models import WorkersModel
 
 
 class UsersTestCase(TestCase):
@@ -21,24 +24,17 @@ class UsersTestCase(TestCase):
     def test_WorkersViews(self):
         response = self.client.get('/workers_page/')
         self.assertEqual(response.status_code, 200)
-
-    def test_Workers_addViews(self):
-        response = self.client.get('/workers_add/')
-        self.assertEqual(response.status_code, 200)
-        response_post = self.client.post('/workers_add/')
-        self.assertEqual(response_post.status_code, 200)
-
-    def test_Workers_delViews(self):
-        response = self.client.get('/workers_del/')
-        self.assertEqual(response.status_code, 200)
-        response_post = self.client.post('/workers_del/')
-        self.assertEqual(response_post.status_code, 200)
-
-    def test_Workers_putViews(self):
-        response = self.client.get('/workers_put/')
-        self.assertEqual(response.status_code, 200)
-        response_post = self.client.post('/workers_put/')
-        self.assertEqual(response_post.status_code, 200)
+        User.objects.create(username="test", password="test", id=1)
+        user2 = User.objects.create(username="test1", password="test1", id=2)
+        Group.objects.create(name='Workers')
+        response_post = self.client.post('/workers_add/', {"add": "add", "name": 1, "pay": 5})
+        self.assertEqual(response_post.status_code, 302)
+        WorkersModel.objects.create(id=2, user=user2, rate_per_hour=5)
+        response_post = self.client.post('/workers_put/', {"put": "put", "id": 2, "pay": 4})
+        self.assertEqual(response_post.status_code, 302)
+        Group.objects.create(name='Users')
+        response_post = self.client.post('/workers_del/', {"del": "del", "del_name": 2})
+        self.assertEqual(response_post.status_code, 302)
 
     def test_LoginViews(self):
         response = self.client.get('/login_page/')

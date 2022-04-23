@@ -224,13 +224,9 @@ def look_order_app(request):
     if request.method == "GET":
         orders = OrderModel.objects.all()
         return render(request, "look_order.html", {"orders": orders})
-    elif request.method == "POST":
-        pass
 
 
 def look_bid_app(request):
     if request.method == "GET":
         bid = BidModel.objects.all()
         return render(request, "look_bid.html", {"bid": bid})
-    elif request.method == "POST":
-        pass

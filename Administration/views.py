@@ -27,7 +27,7 @@ def bid_app(request):
             bid_tot = BidModel(**form.cleaned_data)
             bid_tot.save()
         return redirect("home")
-
+    return render(request, "bid_app.html")
 
 def schedule_app(request):
     if request.method == "GET":
@@ -52,3 +52,4 @@ def schedule_app(request):
             sch1 = ScheduleModel(**form.cleaned_data, worker=request.user, delta=delta)
             sch1.save()
         return redirect("schedule")
+    return render(request, "schedule_app.html")
