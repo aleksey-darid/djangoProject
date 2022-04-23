@@ -14,9 +14,6 @@ urlpatterns = [
     path('logout_page/', logout_app, name="logout"),
     path('registration_page/', registration_app, name="registration"),
     path('order_page/', order_app, name="order"),
-    path('add_groops/', f.add_groops, name="add_groops"),
-    path('add_su/', f.add_su_in_Dev, name="add_su"),
-    path('add_man/', f.add_manager, name="add_man"),
-    path('add_prod/', f.add_production, name="add_prod"),
+    path('add_all/', f.add_all_first_data, name="add_groops"),
 
 ]

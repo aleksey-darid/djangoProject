@@ -187,41 +187,25 @@ def home_app(request):
 
 
 class First:
-    def add_groops(self, request):
+
+    def add_all_first_data(self, request):
         try:
-            group_dev = Group.objects.create(name='Dev')
-            group_wor = Group.objects.create(name='Workers')
-            group_users = Group.objects.create(name='Users')
-            group_manager = Group.objects.create(name='Manager')
-            return redirect("home")
-        except:
-            return redirect("home")
-    def add_su_in_Dev(self, request):
-        try:
+            Group.objects.create(name='Dev')
+            Group.objects.create(name='Workers')
+            Group.objects.create(name='Users')
+            Group.objects.create(name='Manager')
             ses_user = request.user.username
             user = User.objects.get(username=ses_user)
             user.groups.add(Group.objects.get(name='Dev'))
+            User.objects.create(username="Manager", password="manager1Manager1")
+            User.objects.create(username="User", password="user1User1")
+            User.objects.create(username="Worker1", password="worker1Worker1")
+            User.objects.create(username="Worker2", password="worker2Worker2")
+            # user = authenticate(username=manager.username, password=manager.password)
+            user1 = User.objects.get(username="Manager")
+            user1.groups.add(Group.objects.get(name='Manager'))
+            ProductionModel.objects.create(name="AMENIEL", size="250 g,", price=30)
+            ProductionModel.objects.create(name="AMENIEL", size="500 g,", price=50)
             return redirect("home")
         except:
-            return redirect("home")
-
-    def add_manager(self, request):
-        try:
-            manager = User.objects.create(username="Manager", password="manager1Manager1")
-            u = User.objects.create(username="User", password="user1User1")
-            w1 = User.objects.create(username="Worker1", password="worker1Worker1")
-            w2 = User.objects.create(username="Worker2", password="worker2Worker2")
-            user = authenticate(username=manager.username, password=manager.password)
-            user.groups.add(Group.objects.get(name='Manager'))
-            return redirect("home")
-        except:
-            return redirect("home")
-
-    def add_production(self, request):
-        try:
-            pr = ProductionModel.objects.create(name="AMENIEL", size="250 g,", price=30)
-            pr1 = ProductionModel.objects.create(name="AMENIEL", size="500 g,", price=50)
-            return redirect("home")
-        except:
-            return redirect("home")
-
+            return render(request, "base_user.html", {"m": "О-ОУ.. Придется в ручную"})

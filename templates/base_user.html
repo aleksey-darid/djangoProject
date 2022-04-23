@@ -16,10 +16,7 @@
     <li><a href="{% url 'registration' %}">Регистрация</a></li>
     <li><a href="{% url 'login' %}">Вход/Выход</a></li>
     <li><a href="{% url 'production' %}">Наша продукция</a></li>
-    <li><a href="{% url 'add_groops' %}">Шаг 1</a></li>
-    <li><a href="{% url 'add_man' %}">Шаг 2</a></li>
-    <li><a href="{% url 'add_su' %}">Шаг 3</a></li>
-    <li><a href="{% url 'add_prod' %}">Шаг 4</a></li>
+    <li><a href="{% url 'add_groops' %}">-add-</a></li>
     {% block info %}
     <p>Наш адрес:</p>
     <p> ул. Петра Мстиславца 12/230</p>
@@ -37,7 +34,7 @@
 
 {% endblock get %}
 {% block content %}
-
+{{ m }}
 {% endblock content %}
 </div>
 {% endblock center %}

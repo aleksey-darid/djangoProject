@@ -51,3 +51,7 @@ class UsersTestCase(TestCase):
     def test_RegistrationViews(self):
         response_post = self.client.post('/registration_page/')
         self.assertEqual(response_post.status_code, 200)
+
+    def test_Add_all_first_dataViews(self):
+        response_post = self.client.get('/add_all/')
+        self.assertEqual(response_post.status_code, 302)
