@@ -208,4 +208,7 @@ class First:
             ProductionModel.objects.create(name="AMENIEL", size="500 g,", price=50)
             return redirect("home")
         except:
-            return render(request, "base_user.html", {"m": "О-ОУ.. Придется в ручную"})
+            return render(request, "base_user.html", {"m": "Вы уже добавили данные нужные для старта работы!"})
+
+
+
