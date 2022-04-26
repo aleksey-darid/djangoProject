@@ -203,7 +203,6 @@ class First:
             us.groups.add(Group.objects.get(name='Users'))
             User.objects.create(username="Worker1", password="worker1Worker1")
             User.objects.create(username="Worker2", password="worker2Worker2")
-            # user = authenticate(username=manager.username, password=manager.password)
             user1 = User.objects.get(username="Manager")
             user1.groups.add(Group.objects.get(name='Manager'))
             ProductionModel.objects.create(name="AMENIEL", size="250 g,", price=30)
