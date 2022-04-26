@@ -86,7 +86,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'ameniel_db',
         'USER': 'aleksey',
-        'PASSWORD': 'postgres', # 'postgres',
+        'PASSWORD': 'postgres',  # 'postgres',
         'HOST': 'db',  # '127.0.0.1',
         'PORT': '5432'
     }

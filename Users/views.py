@@ -210,6 +210,3 @@ class First:
             return redirect("home")
         except:
             return render(request, "base_user.html", {"m": "Вы уже добавили данные нужные для старта работы!"})
-
-
-
