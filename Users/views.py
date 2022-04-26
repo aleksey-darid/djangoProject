@@ -197,8 +197,10 @@ class First:
             ses_user = request.user.username
             user = User.objects.get(username=ses_user)
             user.groups.add(Group.objects.get(name='Dev'))
-            User.objects.create(username="Manager", password="manager1Manager1")
-            User.objects.create(username="User", password="user1User1")
+            man = User.objects.create(username="Manager", password="manager1Manager1")
+            man.groups.add(Group.objects.get(name='Manager'))
+            us = User.objects.create(username="User", password="user1User1")
+            us.groups.add(Group.objects.get(name='Users'))
             User.objects.create(username="Worker1", password="worker1Worker1")
             User.objects.create(username="Worker2", password="worker2Worker2")
             # user = authenticate(username=manager.username, password=manager.password)
